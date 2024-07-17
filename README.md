@@ -18,5 +18,5 @@ If you encounter any difficulties, start with the [troubleshooting guide](https:
 
 ## License
 
-Cozystack is licensed under Apache 2.0.  
+Bootstack is licensed under Apache 2.0.  
 The code is provided as-is with no warranties.
