@@ -13,11 +13,11 @@
 
 ## Documentation
 
-The documentation is located on official [bootstack.astrasky.net](https://bootstack.astrasky.net) website.
+The documentation is located on official [bootstack.app](https://bootstack.astrasky.net) website.
 
-Read [Get Started](https://cozystack.io/docs/get-started/) section for a quick start.
+Read [Get Started](https://bootstack.app/docs/get-started/) section for a quick start.
 
-If you encounter any difficulties, start with the [troubleshooting guide](https://bootstack.astrasky.net/docs/), and work your way through the process that we've outlined.
+If you encounter any difficulties, start with the [troubleshooting guide](https://bootstack.app/docs/), and work your way through the process that we've outlined.
 
 ## License
 
