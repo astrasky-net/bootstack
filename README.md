@@ -1,3 +1,6 @@
+![Bootstack](img/boostack-logo-black.svg#gh-light-mode-only)
+![Bootstack](img/boostack-logo-white.svg#gh-dark-mode-only)
+
 # Bootstack
 
 **Bootstack** is developed on top of [Cozystack](https://github.com/aenix-io/cozystack).
