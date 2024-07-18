@@ -19,5 +19,5 @@ If you encounter any difficulties, start with the [troubleshooting guide](https:
 Bootstack is licensed under Apache 2.0.  
 The code is provided as-is with no warranties.
 
-
+## Powered by Cozystack
 **Bootstack** is developed on top of [Cozystack](https://github.com/aenix-io/cozystack).
