@@ -6,7 +6,7 @@
 **Bootstack** is developed on top of [Cozystack](https://github.com/aenix-io/cozystack).
 
 [![Open Source](https://img.shields.io/badge/Open-Source-brightgreen)](https://opensource.org/)
-[![Apache-2.0 License](https://img.shields.io/github/license/bootstack-net/bootstack)](https://opensource.org/licenses/)
+[![Apache-2.0 License](https://img.shields.io/github/license/astrasky-net/bootstack)](https://opensource.org/licenses/)
 
 
 
