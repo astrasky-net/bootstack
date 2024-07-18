@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bootstack-confluence
+  namespace: bootstack-argo-cd
+spec:
+  destination:
+    namespace: bootstack-confluence
+    name: in-cluster
+  project: applications
+  source:
+    path: applications/apps/confluence
+    repoURL: https://github.com/bootstackauto/bootstack
+    targetRevision: HEAD
+    helm:
+      # https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
+      valueFiles:
+        - values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

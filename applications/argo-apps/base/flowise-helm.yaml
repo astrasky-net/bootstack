@@ -1,0 +1,76 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flowise
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+    automated:
+      prune: true
+      selfHeal: true
+
+  sources:
+    - repoURL: https://cowboysysop.github.io/charts/
+      chart: flowise
+      targetRevision: 3.5.0
+      helm:
+        valuesObject:
+          replicaCount: 1
+          fullnameOverride: flowise
+
+          image:
+            registry: docker.io
+            repository: flowiseai/flowise
+            tag: "1.8.2"
+
+          service:
+            type: ClusterIP
+            LoadBalancerIP:
+            ports:
+              http: 3000
+            nodePorts:
+              ## @param service.nodePorts.http Service node port for HTTP when service type is LoadBalancer or NodePort
+              http:
+              # http: 30000
+
+          persistence:
+            enabled: true
+            size: 1Gi
+            storageClass: appdata
+
+          config:
+            username: ""
+          existingSecret: "flowise-cr"
+          existingSecretKeyPassword: "password"
+
+          externalPostgresql:
+            enabled: true
+            host: 10.3.3.159
+            port: 5432
+            user: flowisedbuser
+            existingSecret: db-credentials
+            existingSecretKeyPassword: password
+            database: flowisedb
+
+    - repoURL: git@github.com:mrkhachaturov/bootstackteam-argo-infra.git
+      path: apps/flowise/envs/prod
+      targetRevision: HEAD
+      plugin:
+        name: envsubst
+        env:
+          - name: DOMAIN_NET
+            value: "${ARGOCD_ENV_DOMAIN_NET}"
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: flowise

@@ -1,0 +1,21 @@
+{{- range $topic := .Values.topics }}
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: "{{ $.Release.Name }}-{{ kebabcase $topic.name }}"
+  labels:
+    strimzi.io/cluster: "{{ $.Release.Name }}"
+spec:
+  topicName: "{{ $topic.name }}"
+  {{- with $topic.partitions }}
+  partitions: "{{ . }}"
+  {{- end }}
+  {{- with $topic.replicas }}
+  replicas: "{{ . }}"
+  {{- end }}
+  {{- with $topic.config }}
+  config:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

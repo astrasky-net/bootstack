@@ -1,0 +1,53 @@
+{
+  "title": "Chart Values",
+  "type": "object",
+  "properties": {
+    "external": {
+      "type": "boolean",
+      "description": "Enable external access from outside the cluster",
+      "default": false
+    },
+    "running": {
+      "type": "boolean",
+      "description": "Determines if the virtual machine should be running",
+      "default": true
+    },
+    "password": {
+      "type": "string",
+      "description": "The default password for the virtual machine",
+      "default": "hackme"
+    },
+    "image": {
+      "type": "string",
+      "description": "The base image for the virtual machine. Allowed values: `ubuntu`, `cirros`, `alpine` and `fedora`",
+      "default": "ubuntu",
+      "enum": [
+        "ubuntu",
+        "cirros",
+        "alpine",
+        "fedora"
+      ]
+    },
+    "disk": {
+      "type": "string",
+      "description": "The size of the disk allocated for the virtual machine",
+      "default": "5Gi"
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "cpu": {
+          "type": "number",
+          "description": "The number of CPU cores allocated to the virtual machine",
+          "default": 1
+        },
+        "memory": {
+          "type": "string",
+          "description": "The amount of memory allocated to the virtual machine",
+          "default": "1024M",
+          "x-display": "slider"
+        }
+      }
+    }
+  }
+}

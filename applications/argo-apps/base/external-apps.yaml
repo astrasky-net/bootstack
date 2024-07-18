@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-apps
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+    automated:
+      prune: true
+      selfHeal: true
+
+  source:
+    repoURL: git@github.com:mrkhachaturov/bootstackteam-argo-infra.git
+    path: external-apps/overlays/local
+    targetRevision: HEAD
+    plugin:
+      name: envsubst
+      env:
+        - name: DOMAIN_NET
+          value: "${ARGOCD_ENV_DOMAIN_NET}"
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: external-apps

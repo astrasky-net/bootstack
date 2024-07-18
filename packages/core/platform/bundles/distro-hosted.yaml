@@ -1,0 +1,94 @@
+{{- $bootstackConfig := lookup "v1" "ConfigMap" "bootstack-system" "bootstack" }}
+
+releases:
+- name: fluxcd-operator
+  releaseName: fluxcd-operator
+  chart: bootstack-fluxcd-operator
+  namespace: bootstack-fluxcd
+  privileged: true
+  dependsOn: []
+
+- name: fluxcd
+  releaseName: fluxcd
+  chart: bootstack-fluxcd
+  namespace: bootstack-fluxcd
+  dependsOn: [fluxcd-operator]
+
+- name: cert-manager
+  releaseName: cert-manager
+  chart: bootstack-cert-manager
+  namespace: bootstack-cert-manager
+  dependsOn: []
+
+- name: cert-manager-issuers
+  releaseName: cert-manager-issuers
+  chart: bootstack-cert-manager-issuers
+  namespace: bootstack-cert-manager
+  dependsOn: [cert-manager]
+
+- name: victoria-metrics-operator
+  releaseName: victoria-metrics-operator
+  chart: bootstack-victoria-metrics-operator
+  namespace: bootstack-victoria-metrics-operator
+  dependsOn: [cert-manager]
+
+- name: monitoring
+  releaseName: monitoring
+  chart: bootstack-monitoring
+  namespace: bootstack-monitoring
+  privileged: true
+  dependsOn: [victoria-metrics-operator]
+
+- name: etcd-operator
+  releaseName: etcd-operator
+  chart: bootstack-etcd-operator
+  namespace: bootstack-etcd-operator
+  dependsOn: [cert-manager]
+
+- name: grafana-operator
+  releaseName: grafana-operator
+  chart: bootstack-grafana-operator
+  namespace: bootstack-grafana-operator
+  dependsOn: []
+
+- name: mariadb-operator
+  releaseName: mariadb-operator
+  chart: bootstack-mariadb-operator
+  namespace: bootstack-mariadb-operator
+  dependsOn: [victoria-metrics-operator]
+
+- name: postgres-operator
+  releaseName: postgres-operator
+  chart: bootstack-postgres-operator
+  namespace: bootstack-postgres-operator
+  dependsOn: [cert-manager]
+
+- name: kafka-operator
+  releaseName: kafka-operator
+  chart: bootstack-kafka-operator
+  namespace: bootstack-kafka-operator
+  dependsOn: []
+
+- name: clickhouse-operator
+  releaseName: clickhouse-operator
+  chart: bootstack-clickhouse-operator
+  namespace: bootstack-clickhouse-operator
+  dependsOn: []
+
+- name: rabbitmq-operator
+  releaseName: rabbitmq-operator
+  chart: bootstack-rabbitmq-operator
+  namespace: bootstack-rabbitmq-operator
+  dependsOn: []
+
+- name: redis-operator
+  releaseName: redis-operator
+  chart: bootstack-redis-operator
+  namespace: bootstack-redis-operator
+  dependsOn: []
+
+- name: telepresence
+  releaseName: traffic-manager
+  chart: bootstack-telepresence
+  namespace: bootstack-telepresence
+  dependsOn: []

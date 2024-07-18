@@ -1,0 +1,100 @@
+replicaCount: 1
+
+image:
+  tag: "8.9.1"
+
+# Database Congiruation
+#
+database:
+  type: postgresql
+  url: jdbc:postgresql://asd
+  credentials: d
+  secretName: d
+  usernameSecretKey:
+  passwordSecretKey: d
+
+# Volume Configuration
+#
+volumes:
+  localHome:
+    persistentVolumeClaim:
+      create: true
+      storageClassName: longhorn-appdata
+      resources:
+        requests:
+          storage: 1Gi
+
+  sharedHome:
+    persistentVolumeClaim:
+      create: true
+      storageClassName: longhorn-shared
+      resources:
+        requests:
+          storage: 1Gi
+
+  synchronyHome:
+    persistentVolumeClaim:
+      create: true
+      storageClassName: longhorn-shared
+      resources:
+        requests:
+          storage: 1Gi
+
+# Confluence configuration
+#
+confluence:
+  useHelmReleaseNameAsContainerName: false
+  # K8s Confluence Service configuration
+  #
+  service:
+    port: 8090
+    type: LoadBalancer
+    loadBalancerIP: 10.3.3.154
+
+  s3AttachmentsStorage:
+    # Bucket name to store attachments. If a bucket name and region (see below) are defined, Confluence will automatically
+    # use AWS S3 to store attachments. Only bucket name is required, not the full arn.
+    #
+    bucketName:
+
+    # AWS region where the S3 bucket is located.
+    #
+    bucketRegion:
+
+    # -- EXPERIMENTAL Feature! Override the default AWS API endpoint with a custom one, for example to use
+    # Minio as object storage https://min.io/
+    #
+    endpointOverride:
+
+  # Port definitions
+  #
+  ports:
+    http: 8090
+
+  # postStart:
+  #   exec:
+  #     command:
+  #       - "/bin/sh"
+  #       - "-c"
+  #       - |
+  #         mkdir -p /opt/atlassian/atlassian-agent
+  #         curl -o /opt/atlassian/atlassian-agent/atlassian-agent.jar http://example.com/atlassian-agent.jar
+  #         chown -R confluence:confluence /opt/atlassian/atlassian-agent
+
+  additionalJvmArgs:
+    - "-javaagent:/opt/atlassian/atlassian-agent.jar"
+    - -Dsynchrony.service.url=https://conf.${DOMAIN_NET}/synchrony/v1
+
+# Confluence Synchrony configuration
+# https://confluence.atlassian.com/doc/configuring-synchrony-858772125.html
+synchrony:
+  enabled: false
+  replicaCount: 2
+  service:
+    port: 80
+
+    type: LoadBalancer
+
+    # -- Use specific loadBalancerIP. Only applies to service type LoadBalancer.
+    #
+    loadBalancerIP: 10.3.3.155

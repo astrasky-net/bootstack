@@ -1,0 +1,45 @@
+{
+  "buildx.build.provenance": {
+    "buildType": "https://mobyproject.org/buildkit@v1",
+    "materials": [
+      {
+        "uri": "pkg:docker/quay.io/poseidon/matchbox@v0.10.0?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "e14cc4a8f6e8f1182fce74d04fe949b6bfc91b04132b3944297661e2c38c9790"
+        }
+      }
+    ],
+    "invocation": {
+      "configSource": {
+        "entryPoint": "Dockerfile"
+      },
+      "parameters": {
+        "frontend": "dockerfile.v0",
+        "locals": [
+          {
+            "name": "context"
+          },
+          {
+            "name": "dockerfile"
+          }
+        ]
+      },
+      "environment": {
+        "platform": "linux/amd64"
+      }
+    }
+  },
+  "buildx.build.ref": "my-builder/my-builder0/ldfhgtmbre2uhbxj50em3lm0l",
+  "containerimage.config.digest": "sha256:c5388ccb7f88a6fe5ddb8b284de9c245cec4911e65e8da8100c9d1bb870eee5d",
+  "containerimage.descriptor": {
+    "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+    "digest": "sha256:8c12ffcd1fe5c98d2eefb6a0b164b08a310a210bc4d0e4d7ed5e9df4e093039f",
+    "size": 1488,
+    "platform": {
+      "architecture": "amd64",
+      "os": "linux"
+    }
+  },
+  "containerimage.digest": "sha256:8c12ffcd1fe5c98d2eefb6a0b164b08a310a210bc4d0e4d7ed5e9df4e093039f",
+  "image.name": "ghcr.io/astrasky-net/matchbox:v1.0.0,ghcr.io/astrasky-net/matchbox:v1.7.5-v1.0.0"
+}

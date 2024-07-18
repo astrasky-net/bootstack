@@ -1,0 +1,161 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: jira-db
+  namespace: jira
+
+spec:
+  imageName: "ghcr.io/cloudnative-pg/postgresql:15.7"
+  description: "PostgreSQL Cluster for jira"
+  instances: 3
+  bootstrap:
+    initdb:
+      database: jiradb
+      owner: jiradbuser
+      encoding: "UTF8"
+      localeCollate: "en_US.UTF-8"
+      localeCType: "en_US.UTF-8"
+      secret:
+        name: db-credentials
+
+  enableSuperuserAccess: true
+  postgresql:
+    parameters:
+      archive_mode: "on"
+      archive_timeout: "5min"
+      dynamic_shared_memory_type: "posix"
+      log_destination: "csvlog"
+      log_directory: "/controller/log"
+      log_filename: "postgres"
+      log_rotation_age: "0"
+      log_rotation_size: "0"
+      log_truncate_on_rotation: "false"
+      logging_collector: "on"
+      max_connections: "200"
+      max_parallel_workers: "32"
+      max_replication_slots: "32"
+      max_worker_processes: "32"
+      shared_memory_type: "mmap"
+      shared_preload_libraries: ""
+      # ssl_max_protocol_version: "TLSv1.3"
+      # ssl_min_protocol_version: "TLSv1.3"
+      wal_keep_size: "512MB"
+      wal_level: "logical"
+      wal_log_hints: "on"
+      wal_receiver_timeout: "5s"
+      wal_sender_timeout: "5s"
+      timezone: "Europe/Moscow"
+      shared_buffers: "768MB"
+      effective_cache_size: "2304MB"
+      maintenance_work_mem: "192MB"
+      checkpoint_completion_target: "0.9"
+      wal_buffers: "16MB"
+      default_statistics_target: "100"
+      random_page_cost: "1.1"
+      effective_io_concurrency: "200"
+      work_mem: "1966kB"
+      huge_pages: "off"
+      min_wal_size: "1GB"
+      max_wal_size: "4GB"
+    pg_hba:
+      - host all all 172.0.0.1/32 md5
+  storage:
+    size: "20Gi"
+    storageClass: "longhorn-dbdata"
+  resources:
+    requests:
+      memory: 3Gi
+      cpu: "2"
+    limits:
+      memory: 6Gi
+      cpu: "4"
+  affinity:
+    tolerations:
+      - key: "node-role.kubernetes.io/storage"
+        operator: "Exists"
+        effect: "NoSchedule"
+    nodeSelector:
+      "node.kubernetes.io/server-usage": "dbdata"
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    target: "prefer-standby"
+    retentionPolicy: "30d"
+    barmanObjectStore:
+      endpointURL: "http://10.3.5.14:10106"
+      destinationPath: "s3://jira-pgdata"
+      serverName: "pgdata"
+      data:
+        compression: "bzip2"
+      wal:
+        compression: "bzip2"
+      s3Credentials:
+        accessKeyId:
+          name: "jiradb-backup"
+          key: "ACCESS_KEY_ID"
+        secretAccessKey:
+          name: "jiradb-backup"
+          key: "ACCESS_SECRET_KEY"
+        region:
+          name: "jiradb-backup"
+          key: "REGION"
+  # externalClusters:
+  #   - name: "clusterBackup"
+  #     barmanObjectStore:
+  #       endpointURL: "https://s3.bootstackteam.net"
+  #       destinationPath: "s3://conf-pgdata"
+  #       serverName: "pgdata"
+  #       data:
+  #         compression: "bzip2"
+  #       wal:
+  #         compression: "bzip2"
+  #       s3Credentials:
+  #         accessKeyId:
+  #           name: "confdb-backup"
+  #           key: "ACCESS_KEY_ID"
+  #         secretAccessKey:
+  #           name: "confdb-backup"
+  #           key: "ACCESS_SECRET_KEY"
+  #         region:
+  #           name: "confdb-backup"
+  #           key: "REGION"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: backup-jira-db
+  namespace: jira
+
+spec:
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: "self"
+  immediate: true
+  cluster:
+    name: "jira-db"
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: jira-db-pooler
+  namespace: jira
+
+spec:
+  cluster:
+    name: jira-db
+  instances: 3
+  type: "rw"
+  serviceTemplate:
+    metadata:
+      labels:
+        app: pooler
+    spec:
+      type: LoadBalancer
+      loadBalancerIP: 10.3.3.158
+  monitoring:
+    enablePodMonitor: true
+  pgbouncer:
+    poolMode: "session"
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "10"

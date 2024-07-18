@@ -1,0 +1,21 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  instances: {{ .Values.replicas }}
+  enableSuperuserAccess: true
+
+  postgresql:
+    parameters:
+      max_wal_senders: "30"
+
+  minSyncReplicas: {{ .Values.quorum.minSyncReplicas }}
+  maxSyncReplicas: {{ .Values.quorum.maxSyncReplicas }}
+
+  monitoring:
+    enablePodMonitor: true
+
+  storage:
+    size: {{ required ".Values.size is required" .Values.size }}

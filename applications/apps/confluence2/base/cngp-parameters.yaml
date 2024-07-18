@@ -1,0 +1,274 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  annotations:
+    cnpg.io/reloadedAt: "2024-03-29T11:07:33.020678+01:00"
+    kubectl.kubernetes.io/restartedAt: "2024-03-29T11:52:20+01:00"
+  creationTimestamp: "2024-03-29T11:17:22Z"
+  generation: 7
+  labels:
+    argocd.argoproj.io/instance: prd-infra-eks-cnpg0-pg
+  name: pg-database0
+  namespace: cnpg1
+  resourceVersion: "223159316"
+  uid: cda6c776-0499-42bd-a7f2-14ac204ab15a
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: cnpg-workload-32
+                operator: In
+                values:
+                  - enabled
+    podAntiAffinityType: preferred
+    tolerations:
+      - effect: NoSchedule
+        key: cnpg-workload-32
+        operator: Equal
+        value: enabled
+    topologyKey: topology.kubernetes.io/zone
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://prd-cnpg-backups/backups
+      s3Credentials:
+        inheritFromIAMRole: true
+      wal:
+        compression: gzip
+        encryption: AES256
+        maxParallel: 4
+    retentionPolicy: 30d
+    target: prefer-standby
+    volumeSnapshot:
+      className: pg-data-snapshot-class
+      labels:
+        app.kubernetes.io/managed-by: cloudnative-pg
+      online: true
+      onlineConfiguration:
+        immediateCheckpoint: true
+        waitForArchive: true
+      snapshotOwnerReference: backup
+      walClassName: pg-wal-snapshot-class
+  bootstrap:
+    initdb:
+      dataChecksums: false
+      database: app
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
+      owner: app
+  enableSuperuserAccess: true
+  failoverDelay: 0
+  imageName: ecr-private-repo/infra/postgresql:13.11-10-202308231244
+  imagePullPolicy: Always
+  instances: 1
+  logLevel: info
+  maxSyncReplicas: 0
+  minSyncReplicas: 0
+  monitoring:
+    customQueriesConfigMap:
+      - key: queries
+        name: cnpg-default-monitoring
+    disableDefaultQueries: false
+    enablePodMonitor: false
+  postgresGID: 26
+  postgresUID: 26
+  postgresql:
+    parameters:
+      archive_mode: "on"
+      archive_timeout: 5min
+      auto_explain.log_min_duration: 10s
+      autovacuum_analyze_scale_factor: "0.05"
+      autovacuum_max_workers: "6"
+      autovacuum_naptime: "30"
+      autovacuum_vacuum_cost_delay: "20"
+      autovacuum_vacuum_scale_factor: "0.1"
+      checkpoint_completion_target: "0.9"
+      checkpoint_timeout: "300"
+      client_encoding: UTF8
+      dynamic_shared_memory_type: posix
+      effective_cache_size: 16GB
+      huge_pages: "on"
+      idle_in_transaction_session_timeout: "300000"
+      log_checkpoints: "1"
+      log_destination: csvlog
+      log_directory: /controller/log
+      log_filename: postgres
+      log_hostname: "1"
+      log_min_duration_statement: "5000"
+      log_rotation_age: "0"
+      log_rotation_size: "0"
+      log_truncate_on_rotation: "false"
+      logging_collector: "on"
+      maintenance_work_mem: 1024MB
+      max_connections: "2000"
+      max_locks_per_transaction: "64"
+      max_logical_replication_workers: "10"
+      max_parallel_workers: "32"
+      max_replication_slots: "10"
+      max_stack_depth: "6144"
+      max_sync_workers_per_subscription: "4"
+      max_wal_senders: "20"
+      max_wal_size: "2048"
+      max_worker_processes: "15"
+      min_wal_size: "192"
+      pg_stat_statements.max: "10000"
+      pg_stat_statements.track: all
+      pgaudit.log: all, -misc
+      pgaudit.log_catalog: "off"
+      pgaudit.log_parameter: "on"
+      pgaudit.log_relation: "on"
+      shared_buffers: 4000MB
+      shared_memory_type: mmap
+      shared_preload_libraries: ""
+      ssl_max_protocol_version: TLSv1.3
+      ssl_min_protocol_version: TLSv1.3
+      tcp_keepalives_count: "2"
+      tcp_keepalives_idle: "300"
+      tcp_keepalives_interval: "30"
+      timezone: UTC
+      track_activity_query_size: "2048"
+      track_commit_timestamp: "on"
+      track_io_timing: "on"
+      wal_keep_size: 512MB
+      wal_level: logical
+      wal_receiver_timeout: 5s
+      wal_sender_timeout: 5s
+      work_mem: 32MB
+    pg_hba:
+      - hostssl app all all cert
+    shared_preload_libraries:
+      - pg_stat_statements
+      - pg_stat_monitor
+      - pg_qualstats
+      - pg_stat_kcache
+      - pg_wait_sampling
+      - pgaudit
+      - auto_explain
+    syncReplicaElectionConstraint:
+      enabled: false
+  primaryUpdateMethod: restart
+  primaryUpdateStrategy: unsupervised
+  priorityClassName: infra-cluster-high
+  replicationSlots:
+    highAvailability:
+      enabled: true
+      slotPrefix: _cnpg_
+    updateInterval: 30
+  resources:
+    limits:
+      hugepages-2Mi: 5Gi
+      memory: 25Gi
+    requests:
+      cpu: "7"
+      hugepages-2Mi: 5Gi
+      memory: 16Gi
+  serviceAccountTemplate:
+    metadata:
+      annotations:
+        eks.amazonaws.com/role-arn: arn:aws:iam::1234:role/eks-cnpg0-cloudnative-pg
+  smartShutdownTimeout: 180
+  startDelay: 3600
+  stopDelay: 1800
+  storage:
+    resizeInUseVolumes: true
+    size: 220Gi
+    storageClass: io2-pg-data
+  switchoverDelay: 3600
+  walStorage:
+    resizeInUseVolumes: true
+    size: 200Gi
+    storageClass: io2
+status:
+  availableArchitectures:
+    - goArch: amd64
+      hash: 72462f8f498e9a1e31eeb819b74038375e02b5bf3d5f9adb6016ab713c96d9dc
+    - goArch: arm64
+      hash: 14ec408750588c000a891253608b5f6a84cc436f607b99a6c15611b106136e44
+  certificates:
+    clientCASecret: pg-database0-ca
+    expirations:
+      pg-database0-ca: 2024-06-27 11:12:23 +0000 UTC
+      pg-database0-replication: 2024-06-27 11:12:23 +0000 UTC
+      pg-database0-server: 2024-06-27 11:12:23 +0000 UTC
+    replicationTLSSecret: pg-database0-replication
+    serverAltDNSNames:
+      - pg-database0-rw
+      - pg-database0-rw.cnpg1
+      - pg-database0-rw.cnpg1.svc
+      - pg-database0-r
+      - pg-database0-r.cnpg1
+      - pg-database0-r.cnpg1.svc
+      - pg-database0-ro
+      - pg-database0-ro.cnpg1
+      - pg-database0-ro.cnpg1.svc
+    serverCASecret: pg-database0-ca
+    serverTLSSecret: pg-database0-server
+  cloudNativePGCommitHash: bcdcd885
+  cloudNativePGOperatorHash: 72462f8f498e9a1e31eeb819b74038375e02b5bf3d5f9adb6016ab713c96d9dc
+  conditions:
+    - lastTransitionTime: "2024-03-29T13:06:28Z"
+      message: Cluster is Ready
+      reason: ClusterIsReady
+      status: "True"
+      type: Ready
+    - lastTransitionTime: "2024-03-29T11:18:08Z"
+      message: Continuous archiving is working
+      reason: ContinuousArchivingSuccess
+      status: "True"
+      type: ContinuousArchiving
+    - lastTransitionTime: "2024-03-29T11:28:32Z"
+      message: Backup was successful
+      reason: LastBackupSucceeded
+      status: "True"
+      type: LastBackupSucceeded
+  configMapResourceVersion:
+    metrics:
+      cnpg-default-monitoring: "174342296"
+  currentPrimary: pg-database0-2
+  currentPrimaryTimestamp: "2024-03-29T11:18:03.180909Z"
+  firstRecoverabilityPoint: "2024-03-29T11:28:32Z"
+  firstRecoverabilityPointByMethod:
+    volumeSnapshot: "2024-03-29T11:28:32Z"
+  healthyPVC:
+    - pg-database0-2
+    - pg-database0-2-wal
+  instanceNames:
+    - pg-database0-2
+  instances: 1
+  instancesReportedState:
+    pg-database0-2:
+      isPrimary: true
+      timeLineID: 4
+  instancesStatus:
+    healthy:
+      - pg-database0-2
+  lastSuccessfulBackup: "2024-03-29T11:28:32Z"
+  lastSuccessfulBackupByMethod:
+    volumeSnapshot: "2024-03-29T11:28:32Z"
+  latestGeneratedNode: 5
+  managedRolesStatus: {}
+  phase: Cluster in healthy state
+  poolerIntegrations:
+    pgBouncerIntegration:
+      secrets:
+        - pg-database0-pooler
+  pvcCount: 2
+  readService: pg-database0-r
+  readyInstances: 1
+  secretsResourceVersion:
+    applicationSecretVersion: "223091672"
+    clientCaSecretVersion: "223091668"
+    replicationSecretVersion: "223091670"
+    serverCaSecretVersion: "223091668"
+    serverSecretVersion: "223091669"
+    superuserSecretVersion: "223091671"
+  targetPrimary: pg-database0-2
+  timelineID: 4
+  topology:
+    instances:
+      pg-database0-2: {}
+    nodesUsed: 1
+    successfullyExtracted: true
+  writeService: pg-database0-rw

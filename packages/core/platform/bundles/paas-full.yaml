@@ -1,0 +1,226 @@
+{{- $bootstackConfig := lookup "v1" "ConfigMap" "bootstack-system" "bootstack" }}
+
+releases:
+- name: fluxcd-operator
+  releaseName: fluxcd-operator
+  chart: bootstack-fluxcd-operator
+  namespace: bootstack-fluxcd
+  privileged: true
+  dependsOn: []
+
+- name: fluxcd
+  releaseName: fluxcd
+  chart: bootstack-fluxcd
+  namespace: bootstack-fluxcd
+  dependsOn: [fluxcd-operator,cilium,kubeovn]
+
+- name: cilium
+  releaseName: cilium
+  chart: bootstack-cilium
+  namespace: bootstack-cilium
+  privileged: true
+  dependsOn: []
+
+- name: kubeovn
+  releaseName: kubeovn
+  chart: bootstack-kubeovn
+  namespace: bootstack-kubeovn
+  privileged: true
+  dependsOn: [cilium]
+  values:
+    bootstack:
+      nodesHash: {{ include "bootstack.master-node-ips" . | sha256sum }}
+    kube-ovn:
+      ipv4:
+        POD_CIDR: "{{ index $bootstackConfig.data "ipv4-pod-cidr" }}"
+        POD_GATEWAY: "{{ index $bootstackConfig.data "ipv4-pod-gateway" }}"
+        SVC_CIDR: "{{ index $bootstackConfig.data "ipv4-svc-cidr" }}"
+        JOIN_CIDR: "{{ index $bootstackConfig.data "ipv4-join-cidr" }}"
+
+- name: cert-manager
+  releaseName: cert-manager
+  chart: bootstack-cert-manager
+  namespace: bootstack-cert-manager
+  dependsOn: [cilium,kubeovn]
+
+- name: cert-manager-issuers
+  releaseName: cert-manager-issuers
+  chart: bootstack-cert-manager-issuers
+  namespace: bootstack-cert-manager
+  dependsOn: [cilium,kubeovn,cert-manager]
+
+- name: victoria-metrics-operator
+  releaseName: victoria-metrics-operator
+  chart: bootstack-victoria-metrics-operator
+  namespace: bootstack-victoria-metrics-operator
+  dependsOn: [cilium,kubeovn,cert-manager]
+
+- name: monitoring
+  releaseName: monitoring
+  chart: bootstack-monitoring
+  namespace: bootstack-monitoring
+  privileged: true
+  dependsOn: [cilium,kubeovn,victoria-metrics-operator]
+
+- name: kubevirt-operator
+  releaseName: kubevirt-operator
+  chart: bootstack-kubevirt-operator
+  namespace: bootstack-kubevirt
+  dependsOn: [cilium,kubeovn]
+
+- name: kubevirt
+  releaseName: kubevirt
+  chart: bootstack-kubevirt
+  namespace: bootstack-kubevirt
+  privileged: true
+  dependsOn: [cilium,kubeovn,kubevirt-operator]
+
+- name: kubevirt-cdi-operator
+  releaseName: kubevirt-cdi-operator
+  chart: bootstack-kubevirt-cdi-operator
+  namespace: bootstack-kubevirt-cdi
+  dependsOn: [cilium,kubeovn]
+
+- name: kubevirt-cdi
+  releaseName: kubevirt-cdi
+  chart: bootstack-kubevirt-cdi
+  namespace: bootstack-kubevirt-cdi
+  dependsOn: [cilium,kubeovn,kubevirt-cdi-operator]
+
+- name: metallb
+  releaseName: metallb
+  chart: bootstack-metallb
+  namespace: bootstack-metallb
+  privileged: true
+  dependsOn: [cilium,kubeovn]
+
+- name: etcd-operator
+  releaseName: etcd-operator
+  chart: bootstack-etcd-operator
+  namespace: bootstack-etcd-operator
+  dependsOn: [cilium,kubeovn,cert-manager]
+
+- name: grafana-operator
+  releaseName: grafana-operator
+  chart: bootstack-grafana-operator
+  namespace: bootstack-grafana-operator
+  dependsOn: [cilium,kubeovn]
+
+- name: mariadb-operator
+  releaseName: mariadb-operator
+  chart: bootstack-mariadb-operator
+  namespace: bootstack-mariadb-operator
+  dependsOn: [cilium,kubeovn,cert-manager,victoria-metrics-operator]
+
+- name: postgres-operator
+  releaseName: postgres-operator
+  chart: bootstack-postgres-operator
+  namespace: bootstack-postgres-operator
+  dependsOn: [cilium,kubeovn,cert-manager]
+
+- name: onepassword-connect
+  releaseName: onepassword-connect
+  chart: bootstack-onepassword-connect
+  namespace: bootstack-onepassword-connect
+  dependsOn: [cilium,cert-manager]
+
+- name: external-secrets-operator
+  releaseName: external-secrets-operator
+  chart: bootstack-external-secrets-operator
+  namespace: bootstack-external-secrets-operator
+  dependsOn: [cilium,cert-manager,onepassword-connect]  
+
+- name: external-dns
+  releaseName: external-dns
+  chart: bootstack-external-dns
+  namespace: bootstack-external-dns
+  dependsOn: [cilium,cert-manager]  
+
+- name: argo-cd
+  releaseName: argo-cd
+  chart: bootstack-argo-cd
+  namespace: bootstack-argo-cd
+  dependsOn: [cilium,kubeovn]
+
+- name: kafka-operator
+  releaseName: kafka-operator
+  chart: bootstack-kafka-operator
+  namespace: bootstack-kafka-operator
+  dependsOn: [cilium,kubeovn]
+
+- name: clickhouse-operator
+  releaseName: clickhouse-operator
+  chart: bootstack-clickhouse-operator
+  namespace: bootstack-clickhouse-operator
+  dependsOn: [cilium,kubeovn]
+
+- name: rabbitmq-operator
+  releaseName: rabbitmq-operator
+  chart: bootstack-rabbitmq-operator
+  namespace: bootstack-rabbitmq-operator
+  dependsOn: [cilium,kubeovn]
+
+- name: redis-operator
+  releaseName: redis-operator
+  chart: bootstack-redis-operator
+  namespace: bootstack-redis-operator
+  dependsOn: [cilium,kubeovn]
+
+- name: piraeus-operator
+  releaseName: piraeus-operator
+  chart: bootstack-piraeus-operator
+  namespace: bootstack-linstor
+  dependsOn: [cilium,kubeovn,cert-manager]
+
+- name: linstor
+  releaseName: linstor
+  chart: bootstack-linstor
+  namespace: bootstack-linstor
+  privileged: true
+  dependsOn: [piraeus-operator,cilium,kubeovn,cert-manager]
+
+- name: telepresence
+  releaseName: traffic-manager
+  chart: bootstack-telepresence
+  namespace: bootstack-telepresence
+  dependsOn: [cilium,kubeovn]
+
+- name: dashboard
+  releaseName: dashboard
+  chart: bootstack-dashboard
+  namespace: bootstack-dashboard
+  dependsOn: [cilium,kubeovn]
+  {{- if .Capabilities.APIVersions.Has "source.toolkit.fluxcd.io/v1" }}
+  {{- with (lookup "source.toolkit.fluxcd.io/v1" "HelmRepository" "bootstack-public" "").items }}
+  values:
+    kubeapps:
+      redis:
+        master:
+          podAnnotations:
+            {{- range $index, $repo := . }}
+            {{- with (($repo.status).artifact).revision }}
+            repository.bootstack.io/{{ $repo.metadata.name }}: {{ quote . }}
+            {{- end }}
+            {{- end }}
+  {{- end }}
+  {{- end }}
+
+- name: kamaji
+  releaseName: kamaji
+  chart: bootstack-kamaji
+  namespace: bootstack-kamaji
+  dependsOn: [cilium,kubeovn,cert-manager]
+
+- name: capi-operator
+  releaseName: capi-operator
+  chart: bootstack-capi-operator
+  namespace: bootstack-cluster-api
+  privileged: true
+  dependsOn: [cilium,kubeovn,cert-manager]
+
+- name: capi-providers
+  releaseName: capi-providers
+  chart: bootstack-capi-providers
+  namespace: bootstack-cluster-api
+  privileged: true
+  dependsOn: [cilium,kubeovn,capi-operator]

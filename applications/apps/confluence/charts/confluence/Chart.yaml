@@ -1,0 +1,31 @@
+annotations:
+  artifacthub.io/changes: |-
+    - "Update appVersions for DC apps (#825)"
+    - "Make it possible to override proxy settings (#822)"
+  artifacthub.io/containsSecurityUpdates: "true"
+apiVersion: v2
+appVersion: 8.5.12
+dependencies:
+- name: common
+  repository: https://atlassian.github.io/data-center-helm-charts
+  version: 1.2.6
+- condition: opensearch.enabled
+  name: opensearch
+  repository: https://opensearch-project.github.io/helm-charts
+  version: 2.19.0
+description: A chart for installing Confluence Data Center on Kubernetes
+home: https://atlassian.github.io/data-center-helm-charts/
+icon: https://atlassian.github.io/data-center-helm-charts/icons/confluence.svg
+keywords:
+- Confluence
+- Confluence Server
+- Confluence Data Center
+- Confluence DC
+- Atlassian
+kubeVersion: '>=1.21.x-0'
+name: confluence
+sources:
+- https://github.com/atlassian/data-center-helm-charts
+- https://bitbucket.org/atlassian-docker/docker-atlassian-confluence-server/
+type: application
+version: 1.20.1

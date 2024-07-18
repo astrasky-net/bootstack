@@ -1,0 +1,235 @@
+{{- $myNS := lookup "v1" "Namespace" "" .Release.Namespace }}
+{{- $etcd := index $myNS.metadata.annotations "namespace.bootstack.io/etcd" }}
+{{- $ingress := index $myNS.metadata.annotations "namespace.bootstack.io/ingress" }}
+{{- $host := index $myNS.metadata.annotations "namespace.bootstack.io/host" }}
+{{- $kubevirtmachinetemplateNames := list }}
+{{- define "kubevirtmachinetemplate" -}}
+spec:
+  virtualMachineBootstrapCheck:
+    checkStrategy: ssh
+  virtualMachineTemplate:
+    metadata:
+      namespace: {{ $.Release.Namespace }}
+      labels:
+        {{- range .group.roles }}
+        node-role.kubernetes.io/{{ . }}: ""
+        {{- end }}
+    spec:
+      runStrategy: Always
+      template:
+        spec:
+          domain:
+            cpu:
+              threads: 1
+              cores: {{ .group.resources.cpu }}
+              sockets: 1
+            devices:
+              disks:
+              - name: system
+                disk:
+                  bus: virtio
+                  pciAddress: 0000:07:00.0
+              - name: containerd
+                disk:
+                  bus: virtio
+                  pciAddress: 0000:08:00.0
+              - name: kubelet
+                disk:
+                  bus: virtio
+                  pciAddress: 0000:09:00.0
+              networkInterfaceMultiqueue: true
+            memory:
+              guest: {{ .group.resources.memory }}
+          evictionStrategy: External
+          volumes:
+          - name: system
+            containerDisk:
+              image: "{{ $.Files.Get "images/ubuntu-container-disk.tag" | trim }}@{{ index ($.Files.Get "images/ubuntu-container-disk.json" | fromJson) "containerimage.digest" }}"
+          - name: containerd
+            emptyDisk:
+              capacity: 20Gi
+          - name: kubelet
+            emptyDisk:
+              capacity: 20Gi
+{{- end }}
+
+
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+      - 10.243.0.0/16
+    services:
+      cidrBlocks:
+      - 10.95.0.0/16
+  controlPlaneRef:
+    namespace: {{ .Release.Namespace }}
+    apiVersion: controlplane.cluster.x-k8s.io/v1alpha1
+    kind: KamajiControlPlane
+    name: {{ .Release.Name }}
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+    kind: KubevirtCluster
+    name: {{ .Release.Name }}
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1alpha1
+kind: KamajiControlPlane
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    cluster.x-k8s.io/role: control-plane
+  annotations:
+    kamaji.clastix.io/kubeconfig-secret-key: "super-admin.svc"
+spec:
+  dataStoreName: "{{ $etcd }}"
+  addons:
+    coreDNS:
+      dnsServiceIPs:
+      - 10.95.0.10
+    konnectivity: {}
+  kubelet:
+    cgroupfs: systemd
+    preferredAddressTypes:
+    - InternalIP
+    - ExternalIP
+  network:
+    serviceType: ClusterIP
+    ingress:
+      extraAnnotations:
+        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      hostname: {{ .Values.host | default (printf "%s.%s" .Release.Name $host) }}:443
+      className: "{{ $ingress }}"
+  deployment:
+  replicas: 2
+  version: 1.30.1
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+kind: KubevirtCluster
+metadata:
+  annotations:
+    cluster.x-k8s.io/managed-by: kamaji
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+{{- range $groupName, $group := .Values.nodeGroups }}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: KubeadmConfigTemplate
+metadata:
+  name: {{ $.Release.Name }}-{{ $groupName }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  template:
+    spec:
+      diskSetup:
+        filesystems:
+        - device: /dev/vdb
+          filesystem: xfs
+          label: containerd
+          partition: "none"
+        - device: /dev/vdc
+          filesystem: xfs
+          label: kubelet
+          partition: "none"
+      mounts:
+      - ["LABEL=containerd", "/var/lib/containerd"]
+      - ["LABEL=kubelet", "/var/lib/kubelet"]
+      preKubeadmCommands:
+      - sed -i 's|root:x:|root::|' /etc/passwd
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs: {}
+        discovery:
+          bootstrapToken:
+            apiServerEndpoint: {{ $.Release.Name }}.{{ $.Release.Namespace }}.svc:6443
+      initConfiguration:
+        skipPhases:
+        - addon/kube-proxy
+---
+{{- $context := deepCopy $ }}
+{{- $_ := set $context "group" $group }}
+{{- $kubevirtmachinetemplate := include "kubevirtmachinetemplate" $context }}
+{{- $kubevirtmachinetemplateHash := $kubevirtmachinetemplate | sha256sum | trunc 6 }}
+{{- $kubevirtmachinetemplateName := printf "%s-%s-%s" $.Release.Name $groupName $kubevirtmachinetemplateHash }}
+{{- $kubevirtmachinetemplateNames = append $kubevirtmachinetemplateNames $kubevirtmachinetemplateName }}
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+kind: KubevirtMachineTemplate
+metadata:
+  name: {{ $.Release.Name }}-{{ $groupName }}-{{ $kubevirtmachinetemplateHash }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  template:
+    {{- $kubevirtmachinetemplate | nindent 4 }}
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  name: {{ $.Release.Name }}-{{ $groupName }}
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-min-size: "{{ $group.minReplicas }}"
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-max-size: "{{ $group.maxReplicas }}"
+    capacity.cluster-autoscaler.kubernetes.io/memory: "{{ $group.resources.memory }}"
+    capacity.cluster-autoscaler.kubernetes.io/cpu: "{{ $group.resources.cpu }}"
+spec:
+  clusterName: {{ $.Release.Name }}
+  template:
+    metadata:
+      labels:
+        cluster.x-k8s.io/cluster-name: {{ $.Release.Name }}
+        cluster.x-k8s.io/deployment-name: {{ $.Release.Name }}-{{ $groupName }}
+        {{- range $group.roles }}
+        node-role.kubernetes.io/{{ . }}: ""
+        {{- end }}
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+          name: {{ $.Release.Name }}-{{ $groupName }}
+          namespace: {{ $.Release.Namespace }}
+      clusterName: {{ $.Release.Name }}
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+        kind: KubevirtMachineTemplate
+        name: {{ $.Release.Name }}-{{ $groupName }}-{{ $kubevirtmachinetemplateHash }}
+        namespace: default
+      version: v1.30.1
+{{- end }}
+---
+{{- /*
+We must preserve all previous KubevirtMachineTemplates until a MachineSet references them.
+*/ -}}
+{{- $mss := (lookup "cluster.x-k8s.io/v1beta1" "MachineSet" $.Release.Namespace "").items }}
+{{- $oldKubevirtmachinetemplates := dict }}
+{{- range $kmt := (lookup "infrastructure.cluster.x-k8s.io/v1alpha1" "KubevirtMachineTemplate" .Release.Namespace "").items }}
+{{- range $or := $kmt.metadata.ownerReferences }}
+{{- if and (eq $or.kind "Cluster") (eq $or.name $.Release.Name) }}
+{{- range $ms := $mss }}
+{{- if and (eq $ms.spec.template.spec.infrastructureRef.kind "KubevirtMachineTemplate") (eq $ms.spec.template.spec.infrastructureRef.name $kmt.metadata.name) }}
+{{- if not (has $kmt.metadata.name $kubevirtmachinetemplateNames) }}
+{{- $oldKubevirtmachinetemplates = merge $oldKubevirtmachinetemplates (dict $kmt.metadata.name $kmt) }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- range $oldKubevirtmachinetemplates }}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+kind: KubevirtMachineTemplate
+metadata:
+  name: {{ .metadata.name }}
+  namespace: {{ .metadata.Namespace }}
+spec:
+  {{- .spec | toYaml | nindent 2 }}
+{{- end }}

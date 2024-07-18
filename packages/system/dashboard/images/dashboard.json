@@ -1,0 +1,51 @@
+{
+  "buildx.build.provenance": {
+    "buildType": "https://mobyproject.org/buildkit@v1",
+    "materials": [
+      {
+        "uri": "pkg:docker/bitnami/nginx@1.25.2?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "fbd9335f55d83d8aaf9ab1a539b0f2a87b444e8c54f34c9a1ca9d7df15605db4"
+        }
+      },
+      {
+        "uri": "pkg:docker/bitnami/node@20.12.1?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "ac00b5d3742ef2b522e149ac3912a9118ca8dc27556f13700d4a53c1982b1460"
+        }
+      }
+    ],
+    "invocation": {
+      "configSource": {
+        "entryPoint": "Dockerfile"
+      },
+      "parameters": {
+        "frontend": "dockerfile.v0",
+        "locals": [
+          {
+            "name": "context"
+          },
+          {
+            "name": "dockerfile"
+          }
+        ]
+      },
+      "environment": {
+        "platform": "linux/amd64"
+      }
+    }
+  },
+  "buildx.build.ref": "my-builder/my-builder0/ook0kkoaax1mt8perpg88tttq",
+  "containerimage.config.digest": "sha256:9bf863d6284e75993eb95ad30479cb013a8669703d1c960b514e811f32f89a82",
+  "containerimage.descriptor": {
+    "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+    "digest": "sha256:a31f9c7156963a254ed54a6a7795b92fe1375161ce774c4444466c555cfb16cb",
+    "size": 703,
+    "platform": {
+      "architecture": "amd64",
+      "os": "linux"
+    }
+  },
+  "containerimage.digest": "sha256:a31f9c7156963a254ed54a6a7795b92fe1375161ce774c4444466c555cfb16cb",
+  "image.name": "ghcr.io/astrasky-net/dashboard:v1.0.0"
+}

@@ -3,18 +3,18 @@
 **Bootstack** is developed on top of [Cozystack](https://github.com/aenix-io/cozystack).
 
 [![Open Source](https://img.shields.io/badge/Open-Source-brightgreen)](https://opensource.org/)
-[![Apache-2.0 License](https://img.shields.io/github/license/astrasky-net/bootstack)](https://opensource.org/licenses/)
+[![Apache-2.0 License](https://img.shields.io/github/license/bootstack-net/bootstack)](https://opensource.org/licenses/)
 
 
 
 
 ## Documentation
 
-The documentation is located on official [bootstack.astrasky.net](https://bootstack.astrasky.net) website.
+The documentation is located on official [bootstack.bootstack.net](https://bootstack.bootstack.net) website.
 
 Read [Get Started](https://cozystack.io/docs/get-started/) section for a quick start.
 
-If you encounter any difficulties, start with the [troubleshooting guide](https://bootstack.astrasky.net/docs/), and work your way through the process that we've outlined.
+If you encounter any difficulties, start with the [troubleshooting guide](https://bootstack.bootstack.net/docs/), and work your way through the process that we've outlined.
 
 ## License
 

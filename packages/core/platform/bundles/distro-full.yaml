@@ -1,0 +1,145 @@
+{{- $bootstackConfig := lookup "v1" "ConfigMap" "bootstack-system" "bootstack" }}
+
+releases:
+- name: fluxcd-operator
+  releaseName: fluxcd-operator
+  chart: bootstack-fluxcd-operator
+  namespace: bootstack-fluxcd
+  privileged: true
+  dependsOn: []
+
+- name: fluxcd
+  releaseName: fluxcd
+  chart: bootstack-fluxcd
+  namespace: bootstack-fluxcd
+  dependsOn: [fluxcd-operator,cilium]
+
+- name: cilium
+  releaseName: cilium
+  chart: bootstack-cilium
+  namespace: bootstack-cilium
+  privileged: true
+  dependsOn: []
+  values:
+    cilium:
+      bpf:
+        masquerade: true
+      cni:
+        chainingMode: ~
+        customConf: false
+        configMap: ""
+      enableIPv4Masquerade: true
+      enableIdentityMark: true
+      ipv4NativeRoutingCIDR: "{{ index $bootstackConfig.data "ipv4-pod-cidr" }}"
+      autoDirectNodeRoutes: true
+
+- name: cert-manager
+  releaseName: cert-manager
+  chart: bootstack-cert-manager
+  namespace: bootstack-cert-manager
+  dependsOn: [cilium]
+
+- name: cert-manager-issuers
+  releaseName: cert-manager-issuers
+  chart: bootstack-cert-manager-issuers
+  namespace: bootstack-cert-manager
+  dependsOn: [cilium,cert-manager]
+
+- name: victoria-metrics-operator
+  releaseName: victoria-metrics-operator
+  chart: bootstack-victoria-metrics-operator
+  namespace: bootstack-victoria-metrics-operator
+  dependsOn: [cilium,cert-manager]
+
+- name: monitoring
+  releaseName: monitoring
+  chart: bootstack-monitoring
+  namespace: bootstack-monitoring
+  privileged: true
+  dependsOn: [cilium,victoria-metrics-operator]
+
+- name: metallb
+  releaseName: metallb
+  chart: bootstack-metallb
+  namespace: bootstack-metallb
+  privileged: true
+  dependsOn: [cilium]
+
+- name: etcd-operator
+  releaseName: etcd-operator
+  chart: bootstack-etcd-operator
+  namespace: bootstack-etcd-operator
+  dependsOn: [cilium,cert-manager]
+
+- name: grafana-operator
+  releaseName: grafana-operator
+  chart: bootstack-grafana-operator
+  namespace: bootstack-grafana-operator
+  dependsOn: [cilium]
+
+- name: mariadb-operator
+  releaseName: mariadb-operator
+  chart: bootstack-mariadb-operator
+  namespace: bootstack-mariadb-operator
+  dependsOn: [cilium,cert-manager,victoria-metrics-operator]
+
+- name: postgres-operator
+  releaseName: postgres-operator
+  chart: bootstack-postgres-operator
+  namespace: bootstack-postgres-operator
+  dependsOn: [cilium,cert-manager]
+
+- name: onepassword-connect
+  releaseName: onepassword-connect
+  chart: bootstack-onepassword-connect
+  namespace: bootstack-onepassword-connect
+  dependsOn: [cilium,cert-manager]
+
+- name: external-secrets-operator
+  releaseName: external-secrets-operator
+  chart: bootstack-external-secrets-operator
+  namespace: bootstack-external-secrets-operator
+  dependsOn: [cilium,cert-manager]  
+
+- name: kafka-operator
+  releaseName: kafka-operator
+  chart: bootstack-kafka-operator
+  namespace: bootstack-kafka-operator
+  dependsOn: [cilium,kubeovn]
+
+- name: clickhouse-operator
+  releaseName: clickhouse-operator
+  chart: bootstack-clickhouse-operator
+  namespace: bootstack-clickhouse-operator
+  dependsOn: [cilium,kubeovn]
+
+- name: rabbitmq-operator
+  releaseName: rabbitmq-operator
+  chart: bootstack-rabbitmq-operator
+  namespace: bootstack-rabbitmq-operator
+  dependsOn: [cilium]
+
+- name: redis-operator
+  releaseName: redis-operator
+  chart: bootstack-redis-operator
+  namespace: bootstack-redis-operator
+  dependsOn: [cilium]
+
+- name: piraeus-operator
+  releaseName: piraeus-operator
+  chart: bootstack-piraeus-operator
+  namespace: bootstack-linstor
+  dependsOn: [cilium,cert-manager]
+
+- name: linstor
+  releaseName: linstor
+  chart: bootstack-linstor
+  namespace: bootstack-linstor
+  privileged: true
+  dependsOn: [piraeus-operator,cilium,cert-manager]
+
+- name: telepresence
+  releaseName: traffic-manager
+  chart: bootstack-telepresence
+  namespace: bootstack-telepresence
+  dependsOn: []

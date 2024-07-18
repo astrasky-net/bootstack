@@ -1,0 +1,11 @@
+clusterSecret:
+  create: true
+  name: production
+  connectHost: http://onepassword-connect.bootstack-onepassword-connect:8080
+  vaults:
+    - name: production
+      priority: 1
+  auth:
+    name: onepassword-token
+    key: token
+    namespace: bootstack-onepassword-connect

@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bootstack-platform
+  namespace: bootstack-argo-cd
+spec:
+  destination:
+    namespace: bootstack-platform
+    name: in-cluster
+  project: applications
+  source:
+    path: applications/apps/platform
+    repoURL: https://github.com/bootstackauto/bootstack
+    targetRevision: HEAD
+    helm:
+      releaseName: bootstack-platform
+      # https://argo-cd.readthedocs.io/en/stable/user-guide/helm/#values-files
+      valueFiles:
+        - values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

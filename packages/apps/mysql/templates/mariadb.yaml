@@ -1,0 +1,72 @@
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  {{- if (and .Values.users.root .Values.users.root.password) }}
+  rootPasswordSecretKeyRef:
+    name: {{ .Release.Name }}
+    key: root-password
+  {{- end }}
+
+  image: "mariadb:11.0.2"
+
+  port: 3306
+
+  replicas: {{ .Values.replicas }}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - mariadb
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+            - {{ .Release.Name }}
+        topologyKey: "kubernetes.io/hostname"
+
+  {{- if gt (int .Values.replicas) 1 }}
+  replication:
+    enabled: true
+    #primary:
+    #  podIndex: 0
+    #  automaticFailover: true
+  {{- end }}
+
+  metrics:
+    enabled: true
+    exporter:
+      image: prom/mysqld-exporter:v0.15.1
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 300m
+          memory: 512Mi
+      port: 9104
+    serviceMonitor:
+      interval: 10s
+      scrapeTimeout: 10s
+
+  myCnfConfigMapKeyRef:
+    name: {{ .Release.Name }}-my-cnf
+    key: config
+
+  storage:
+    size: {{ .Values.size }}
+    resizeInUseVolumes: true
+    waitForVolumeResize: true
+
+  {{- if .Values.external }}
+  primaryService:
+    type: LoadBalancer
+  {{- end }}
+
+  #secondaryService:
+  #  type: LoadBalancer

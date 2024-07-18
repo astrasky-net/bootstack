@@ -1,0 +1,57 @@
+{
+  "buildx.build.provenance": {
+    "buildType": "https://mobyproject.org/buildkit@v1",
+    "materials": [
+      {
+        "uri": "pkg:docker/bitnami/golang@1.22.2?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "f6238d0feb519be3a157e0f29d56312fdcbfde165d96987f3956581126371977"
+        }
+      },
+      {
+        "uri": "pkg:docker/bitnami/minideb@bookworm?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "7f59aae1bae96c43cbc2e33b538f8f358e4bdded6e07252b5b00d3359eaba415"
+        }
+      },
+      {
+        "uri": "pkg:docker/alpine@latest?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "b89d9c93e9ed3597455c90a0b88a8bbb5cb7188438f70953fede212a0c4394e0"
+        }
+      }
+    ],
+    "invocation": {
+      "configSource": {
+        "entryPoint": "Dockerfile"
+      },
+      "parameters": {
+        "frontend": "dockerfile.v0",
+        "locals": [
+          {
+            "name": "context"
+          },
+          {
+            "name": "dockerfile"
+          }
+        ]
+      },
+      "environment": {
+        "platform": "linux/amd64"
+      }
+    }
+  },
+  "buildx.build.ref": "my-builder/my-builder0/qgazw132d3hqupul8d1ke59s0",
+  "containerimage.config.digest": "sha256:e8818959032f981d1c68541b3f988d829b290e50df3a4104c2ef39fc5d159ef4",
+  "containerimage.descriptor": {
+    "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+    "digest": "sha256:3e0e3b5a090b151782354a2b8bb46bf4d83b2309bb6e8ddbb37c9ba2aad25ccd",
+    "size": 1890,
+    "platform": {
+      "architecture": "amd64",
+      "os": "linux"
+    }
+  },
+  "containerimage.digest": "sha256:3e0e3b5a090b151782354a2b8bb46bf4d83b2309bb6e8ddbb37c9ba2aad25ccd",
+  "image.name": "ghcr.io/astrasky-net/kubeapps-apis:v1.0.0"
+}

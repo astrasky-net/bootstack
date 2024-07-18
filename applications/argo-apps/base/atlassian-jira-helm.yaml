@@ -1,0 +1,129 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: atlassian-jira
+  namespace: argocd
+
+  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
+  # finalizers:
+  #   - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+
+    automated:
+      prune: true
+      selfHeal: true
+
+  sources:
+    - repoURL: https://atlassian.github.io/data-center-helm-charts
+      chart: jira
+      targetRevision: 1.20.0
+      helm:
+        valuesObject:
+          replicaCount: 1
+          fullnameOverride: jira
+
+          serviceAccount:
+            create: true
+
+          image:
+            repository: bootstackautoio/bootstackteam-agile
+            tag: "9.16.1-ubuntu-jdk17"
+
+          database:
+            type: postgresql
+            url: "jdbc:postgresql://10.3.3.158:5432/jiradb"
+            credentials:
+              secretName: db-credentials
+              usernameSecretKey: username
+              passwordSecretKey: password
+
+          volumes:
+            localHome:
+              persistentVolumeClaim:
+                create: true
+                storageClassName: longhorn-data
+                resources:
+                  requests:
+                    storage: 8Gi
+            sharedHome:
+              persistentVolumeClaim:
+                create: true
+                storageClassName: longhorn-shared
+                resources:
+                  requests:
+                    storage: 5Gi
+
+          jira:
+            service:
+              port: 8080
+              type: LoadBalancer
+              # sessionAffinity: ClientIP
+              # sessionAffinityConfig:
+              #   clientIP:
+              #     timeoutSeconds: 10800
+              loadBalancerIP: 10.3.3.157
+            readinessProbe:
+              enabled: false
+            clustering:
+              enabled: false
+            s3Storage:
+              avatars:
+                bucketName: jira
+                bucketRegion: main
+                endpointOverride: http://10.3.5.14:10106
+            resources:
+              jvm:
+                maxHeap: "2g"
+                minHeap: "1g"
+                reservedCodeCache: "512m"
+              container:
+                requests:
+                  cpu: "6"
+                  memory: "9G"
+            license:
+              secretName: jira-license
+              secretKey: license-key
+            additionalJvmArgs:
+              - "-javaagent:/opt/atlassian/atlassian-agent/atlassian-agent.jar"
+
+          monitoring:
+            exposeJmxMetrics: true
+            serviceMonitor:
+              create: true
+              prometheusLabelSelector:
+                release: kube-prometheus-stack
+            grafana:
+              createDashboards: true
+              dashboardLabels:
+                grafana_dashboard: "dc_monitoring"
+
+          additionalFiles:
+            - name: jira-storage
+              type: secret
+              key: credentials
+              mountPath: /var/atlassian/application-data/jira/.aws/
+
+          atlassianAnalyticsAndSupport:
+            analytics:
+              enabled: false
+            helmValues:
+              enabled: true
+
+    - repoURL: git@github.com:mrkhachaturov/bootstackteam-argo-infra.git
+      path: apps/jira/envs/prod
+      targetRevision: HEAD
+      plugin:
+        name: envsubst
+        env:
+          - name: DOMAIN_NET
+            value: "${ARGOCD_ENV_DOMAIN_NET}"
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: jira

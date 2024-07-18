@@ -1,0 +1,56 @@
+{{- $bootstackConfig := lookup "v1" "ConfigMap" "bootstack-system" "bootstack" }}
+{{- $bundleName := index $bootstackConfig.data "bundle-name" }}
+{{- $bundle := tpl (.Files.Get (printf "bundles/%s.yaml" $bundleName)) . | fromYaml }}
+{{- $host := "example.org" }}
+{{- $tenantRoot := list }}
+{{- if .Capabilities.APIVersions.Has "helm.toolkit.fluxcd.io/v2" }}
+{{- $tenantRoot = lookup "helm.toolkit.fluxcd.io/v2" "HelmRelease" "tenant-root" "tenant-root" }}
+{{- end }}
+{{- if and $tenantRoot $tenantRoot.spec $tenantRoot.spec.values $tenantRoot.spec.values.host }}
+{{- $host = $tenantRoot.spec.values.host }}
+{{- else }}
+{{- end }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    helm.sh/resource-policy: keep
+    namespace.bootstack.io/etcd: tenant-root
+    namespace.bootstack.io/monitoring: tenant-root
+    namespace.bootstack.io/ingress: tenant-root
+    namespace.bootstack.io/host: "{{ $host }}"
+  name: tenant-root
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tenant-root
+  namespace: tenant-root
+  labels:
+    bootstack.io/ui: "true"
+spec:
+  interval: 1m
+  releaseName: tenant-root
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    remediation:
+      retries: -1
+  chart:
+    spec:
+      chart: tenant
+      sourceRef:
+        kind: HelmRepository
+        name: bootstack-apps
+        namespace: bootstack-public
+  values:
+    host: "{{ $host }}"
+  dependsOn:
+  {{- range $x := $bundle.releases }}
+  {{- if has $x.name (list "cilium" "kubeovn") }}
+  - name: {{ $x.name }}
+    namespace: {{ $x.namespace }}
+  {{- end }}
+  {{- end }}

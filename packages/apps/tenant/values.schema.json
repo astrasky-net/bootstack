@@ -1,0 +1,26 @@
+{
+    "title": "Chart Values",
+    "type": "object",
+    "properties": {
+        "host": {
+            "type": "string",
+            "description": "The hostname used to access tenant services (defaults to using the tenant name as a subdomain for it's parent tenant host).",
+            "default": ""
+        },
+        "etcd": {
+            "type": "boolean",
+            "description": "Deploy own Etcd cluster",
+            "default": false
+        },
+        "monitoring": {
+            "type": "boolean",
+            "description": "Deploy own Monitoring Stack",
+            "default": false
+        },
+        "ingress": {
+            "type": "boolean",
+            "description": "Deploy own Ingress Controller",
+            "default": false
+        }
+    }
+}

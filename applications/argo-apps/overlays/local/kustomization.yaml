@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: bootstack-argo-cd
+
+resources:
+  # - ../../../argo-apps/base/bootstack-platform.yaml
+  # - ../../../argo-apps/base/bootstack-wiki.yaml
+  # - ../../../argo-apps/base/atlassian-jira-helm.yaml
+  # - ../../../argo-apps/base/external-apps.yaml
+  # - ../../../argo-apps/base/flowise-helm.yaml
+  # - ../../../argo-apps/base/shared-app.yaml

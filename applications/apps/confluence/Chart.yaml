@@ -1,0 +1,6 @@
+apiVersion: v2
+name: bootstack-confluence
+description: bootstack Team Wiki Platform
+type: application
+version: 1.0.3 # Placeholder, the actual version will be automatically set during the build process
+appVersion: 1.0.3
