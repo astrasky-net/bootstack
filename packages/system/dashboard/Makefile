@@ -1,5 +1,5 @@
 export NAME=dashboard
-export NAMESPACE=bootstack-$(NAME)
+export NAMESPACE=cozy-$(NAME)
 
 include ../../../scripts/common-envs.mk
 include ../../../scripts/package-system.mk
@@ -15,6 +15,7 @@ update-chart:
 	rm -rf charts/kubeapps/charts/postgresql/
 	ln -s ../../images charts/kubeapps/images
 	sed -i 's/.cluster.local//g' charts/kubeapps/templates/kubeappsapis/deployment.yaml
+	patch --no-backup-if-mismatch charts/kubeapps/templates/frontend/configmap.yaml < patches/logos.patch
 
 update-dockerfiles:
 	tag=$$(git ls-remote --tags --sort="v:refname" https://github.com/vmware-tanzu/kubeapps  | awk -F'[/^]' 'END{print $$3}') && \

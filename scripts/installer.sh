@@ -77,7 +77,12 @@ if ! flux_is_ok; then
 fi
 
 # Reconcile Helm repositories
-kubectl annotate helmrepositories.source.toolkit.fluxcd.io -A -l bootstack.io/repository reconcile.fluxcd.io/requestedAt=$(date +"%Y-%m-%dT%H:%M:%SZ") --overwrite
+kubectl annotate helmrepositories.source.toolkit.fluxcd.io -A -l bootstack.app/repository reconcile.fluxcd.io/requestedAt=$(date +"%Y-%m-%dT%H:%M:%SZ") --overwrite
+
+# Unsuspend all system charts
+kubectl get hr -A -l bootstack.app/system-app=true --no-headers | while read namespace name rest; do
+  kubectl patch hr -n "$namespace" "$name" -p '{"spec": {"suspend": null}}' --type=merge --field-manager=flux-client-side-apply
+done
 
 # Reconcile platform chart
 trap 'exit' INT TERM

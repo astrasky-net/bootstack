@@ -18,7 +18,8 @@ metadata:
   name: {{ $x.name }}
   namespace: {{ $x.namespace }}
   labels:
-    bootstack.io/repository: system
+    bootstack.app/repository: system
+    bootstack.app/system-app: "true"
 spec:
   interval: 5m
   releaseName: {{ $x.releaseName | default $x.name }}

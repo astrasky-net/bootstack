@@ -45,7 +45,7 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/v39vn51w8ilm80x17le9y6wu8",
+  "buildx.build.ref": "my-builder/my-builder0/eseouyfeuun79q8qijdg9mrlo",
   "containerimage.config.digest": "sha256:0b7933dedd4558821390ecd8f80674788869e0aecc48c6ea4df3f15d23cd19b1",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
