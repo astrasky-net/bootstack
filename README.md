@@ -13,7 +13,7 @@
 
 ## Documentation
 
-The documentation is located on official [bootstack.bootstack.net](https://bootstack.astrasky.net) website.
+The documentation is located on official [bootstack.astrasky.net](https://bootstack.astrasky.net) website.
 
 Read [Get Started](https://cozystack.io/docs/get-started/) section for a quick start.
 
