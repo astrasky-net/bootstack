@@ -16,10 +16,10 @@ kind: Namespace
 metadata:
   annotations:
     helm.sh/resource-policy: keep
-    namespace.bootstack.io/etcd: tenant-root
-    namespace.bootstack.io/monitoring: tenant-root
-    namespace.bootstack.io/ingress: tenant-root
-    namespace.bootstack.io/host: "{{ $host }}"
+    namespace.bootstack.app/etcd: tenant-root
+    namespace.bootstack.app/monitoring: tenant-root
+    namespace.bootstack.app/ingress: tenant-root
+    namespace.bootstack.app/host: "{{ $host }}"
   name: tenant-root
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -28,7 +28,7 @@ metadata:
   name: tenant-root
   namespace: tenant-root
   labels:
-    bootstack.io/ui: "true"
+    bootstack.app/ui: "true"
 spec:
   interval: 1m
   releaseName: tenant-root

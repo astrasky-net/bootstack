@@ -113,7 +113,7 @@ releases:
           podAnnotations:
             {{- range $index, $repo := . }}
             {{- with (($repo.status).artifact).revision }}
-            repository.bootstack.io/{{ $repo.metadata.name }}: {{ quote . }}
+            repository.bootstack.app/{{ $repo.metadata.name }}: {{ quote . }}
             {{- end }}
             {{- end }}
   {{- end }}

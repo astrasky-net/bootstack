@@ -1,6 +1,6 @@
 {{- if .Values.oncall.enabled }}
 {{- $myNS := lookup "v1" "Namespace" "" .Release.Namespace }}
-{{- $host := index $myNS.metadata.annotations "namespace.bootstack.io/host" }}
+{{- $host := index $myNS.metadata.annotations "namespace.bootstack.app/host" }}
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:

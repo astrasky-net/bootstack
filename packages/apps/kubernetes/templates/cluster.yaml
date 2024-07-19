@@ -1,7 +1,7 @@
 {{- $myNS := lookup "v1" "Namespace" "" .Release.Namespace }}
-{{- $etcd := index $myNS.metadata.annotations "namespace.bootstack.io/etcd" }}
-{{- $ingress := index $myNS.metadata.annotations "namespace.bootstack.io/ingress" }}
-{{- $host := index $myNS.metadata.annotations "namespace.bootstack.io/host" }}
+{{- $etcd := index $myNS.metadata.annotations "namespace.bootstack.app/etcd" }}
+{{- $ingress := index $myNS.metadata.annotations "namespace.bootstack.app/ingress" }}
+{{- $host := index $myNS.metadata.annotations "namespace.bootstack.app/host" }}
 {{- $kubevirtmachinetemplateNames := list }}
 {{- define "kubevirtmachinetemplate" -}}
 spec:

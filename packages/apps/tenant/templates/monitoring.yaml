@@ -7,7 +7,7 @@ metadata:
   annotations:
     helm.sh/resource-policy: keep
   labels:
-    bootstack.io/ui: "true"
+    bootstack.app/ui: "true"
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:

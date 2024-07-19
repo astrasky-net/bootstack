@@ -5,7 +5,7 @@ metadata:
   name: bootstack-system
   namespace: bootstack-system
   labels:
-    bootstack.io/repository: system
+    bootstack.app/repository: system
 spec:
   interval: 5m0s
   url: http://bootstack.bootstack-system.svc/repos/system
@@ -16,8 +16,8 @@ metadata:
   name: bootstack-apps
   namespace: bootstack-public
   labels:
-    bootstack.io/ui: "true"
-    bootstack.io/repository: apps
+    bootstack.app/ui: "true"
+    bootstack.app/repository: apps
 spec:
   interval: 5m0s
   url: http://bootstack.bootstack-system.svc/repos/apps
@@ -28,7 +28,7 @@ metadata:
   name: bootstack-extra
   namespace: bootstack-public
   labels:
-    bootstack.io/repository: extra
+    bootstack.app/repository: extra
 spec:
   interval: 5m0s
   url: http://bootstack.bootstack-system.svc/repos/extra

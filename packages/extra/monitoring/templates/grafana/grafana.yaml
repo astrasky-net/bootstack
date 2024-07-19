@@ -1,6 +1,6 @@
 {{- $myNS := lookup "v1" "Namespace" "" .Release.Namespace }}
-{{- $ingress := index $myNS.metadata.annotations "namespace.bootstack.io/ingress" }}
-{{- $host := index $myNS.metadata.annotations "namespace.bootstack.io/host" }}
+{{- $ingress := index $myNS.metadata.annotations "namespace.bootstack.app/ingress" }}
+{{- $host := index $myNS.metadata.annotations "namespace.bootstack.app/host" }}
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: Grafana

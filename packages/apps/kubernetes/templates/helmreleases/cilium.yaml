@@ -3,8 +3,8 @@ kind: HelmRelease
 metadata:
   name: {{ .Release.Name }}-cilium
   labels:
-    bootstack.io/repository: system
-    coztstack.io/target-cluster-name: {{ .Release.Name }}
+    bootstack.app/repository: system
+    bootstack.app/target-cluster-name: {{ .Release.Name }}
 spec:
   interval: 5m
   releaseName: cilium

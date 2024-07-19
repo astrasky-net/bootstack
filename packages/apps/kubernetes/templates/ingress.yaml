@@ -1,5 +1,5 @@
 {{- $myNS := lookup "v1" "Namespace" "" .Release.Namespace }}
-{{- $ingress := index $myNS.metadata.annotations "namespace.bootstack.io/ingress" }}
+{{- $ingress := index $myNS.metadata.annotations "namespace.bootstack.app/ingress" }}
 {{- if .Values.addons.ingressNginx.hosts }}
 ---
 apiVersion: networking.k8s.io/v1

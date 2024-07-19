@@ -4,8 +4,8 @@ kind: HelmRelease
 metadata:
   name: {{ .Release.Name }}-fluxcd-operator
   labels:
-    bootstack.io/repository: system
-    coztstack.io/target-cluster-name: {{ .Release.Name }}
+    bootstack.app/repository: system
+    bootstack.app/target-cluster-name: {{ .Release.Name }}
 spec:
   interval: 5m
   releaseName: fluxcd-operator
@@ -47,8 +47,8 @@ kind: HelmRelease
 metadata:
   name: {{ .Release.Name }}-fluxcd
   labels:
-    bootstack.io/repository: system
-    coztstack.io/target-cluster-name: {{ .Release.Name }}
+    bootstack.app/repository: system
+    bootstack.app/target-cluster-name: {{ .Release.Name }}
 spec:
   interval: 5m
   releaseName: fluxcd

@@ -9,16 +9,16 @@ metadata:
   {{- if $existingNS }}
   annotations:
     {{- if .Values.host }}
-    namespace.bootstack.io/host: "{{ .Values.host }}"
+    namespace.bootstack.app/host: "{{ .Values.host }}"
     {{- else }}
-    {{ $parentHost := index $existingNS.metadata.annotations "namespace.bootstack.io/host" | required (printf "namespace %s has no namespace.bootstack.io/host annotation" $.Release.Namespace) }}
-    namespace.bootstack.io/host: "{{ splitList "-" (include "tenant.name" .) | last }}.{{ $parentHost }}"
+    {{ $parentHost := index $existingNS.metadata.annotations "namespace.bootstack.app/host" | required (printf "namespace %s has no namespace.bootstack.app/host annotation" $.Release.Namespace) }}
+    namespace.bootstack.app/host: "{{ splitList "-" (include "tenant.name" .) | last }}.{{ $parentHost }}"
     {{- end }}
     {{- range $x := list "etcd" "monitoring" "ingress" }}
     {{- if (index $.Values $x) }}
-    namespace.bootstack.io/{{ $x }}: "{{ include "tenant.name" $ }}"
+    namespace.bootstack.app/{{ $x }}: "{{ include "tenant.name" $ }}"
     {{- else }}
-    namespace.bootstack.io/{{ $x }}: "{{ index $existingNS.metadata.annotations (printf "namespace.bootstack.io/%s" $x) | required (printf "namespace %s has no namespace.bootstack.io/%s annotation" $.Release.Namespace $x) }}"
+    namespace.bootstack.app/{{ $x }}: "{{ index $existingNS.metadata.annotations (printf "namespace.bootstack.app/%s" $x) | required (printf "namespace %s has no namespace.bootstack.app/%s annotation" $.Release.Namespace $x) }}"
     {{- end }}
     {{- end }}
   ownerReferences:
