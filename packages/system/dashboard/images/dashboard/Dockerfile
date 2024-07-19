@@ -17,8 +17,8 @@ RUN sed -i src/components/DeploymentForm/DeploymentForm.tsx \
     -e '/const handleDeploy/i \  const packageName = packageId ? packageId.split("/").pop() : "";' \
     -e '/releaseName,$/ s|releaseName,|packageName + "-" + releaseName,|' 
 RUN sed -i '/by VMware/,/ \.$/d' src/components/Header/Menu.tsx
-RUN sed -i '/height: 4em;/ s/4em/4.5em/' src/components/Header/Header.scss
-RUN sed -i 's|background-image:.*|background-image: url("/public/logo.svg");|' src/components/Header/Header.scss 
+RUN sed -i '/height: 4em;/ s/4em/5.5em/' src/components/Header/Header.scss
+RUN sed -i '/background-image: / s|url("data:image/svg+xml;base64,[^"]*")|url("https://raw.githubusercontent.com/astrasky-net/bootstack/main/img/bootstack-logo-white.svg")|' src/components/Header/Header.scss
 RUN sed -i '/background-image/a \  background-size: 85%;' src/components/Header/Header.scss
 
 RUN yarn install --frozen-lockfile
