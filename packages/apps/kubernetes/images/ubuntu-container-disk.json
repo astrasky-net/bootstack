@@ -32,7 +32,7 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/lv9uzv980gs08lre23p0wrav9",
+  "buildx.build.ref": "my-builder/my-builder0/9ixqr92kz51yzo2q128wj2qe3",
   "containerimage.config.digest": "sha256:90a835ef241b07a15628b0e53e2bf9958699fc715c6eadffb7c15cd3976ea9a0",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
@@ -44,5 +44,5 @@
     }
   },
   "containerimage.digest": "sha256:d13be593c907a561bc1ac19e0433b432f3ed3e2f78eec0c8e127e22bc76b56d4",
-  "image.name": "ghcr.io/astrasky-net/ubuntu-container-disk:v1.30.1,ghcr.io/astrasky-net/ubuntu-container-disk:v1.30.1-v1.0.0"
+  "image.name": "ghcr.io/astrasky-net/ubuntu-container-disk:latest,ghcr.io/astrasky-net/ubuntu-container-disk:latest"
 }
