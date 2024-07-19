@@ -1,5 +1,5 @@
 export NAME=dashboard
-export NAMESPACE=cozy-$(NAME)
+export NAMESPACE=bootstack-$(NAME)
 
 include ../../../scripts/common-envs.mk
 include ../../../scripts/package-system.mk
