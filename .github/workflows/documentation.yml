@@ -71,6 +71,7 @@ jobs:
 
       - name: Install Python dependencies
         run: |
+          cd docs  # Change to the docs directory
           pip install mkdocs-material
           pip install .[recommended,git,imaging]
 
@@ -90,11 +91,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY }}
         run: |
+          cd docs  # Change to the docs directory
           mkdocs build --clean --site-dir docs/site  # Specify output directory
           mkdocs --version
 
       - name: Adjust permissions
         run: |
+          cd docs/site
           chmod -c -R +rX docs/site/ | while read line; do
             echo "::warning title=Invalid file permissions automatically fixed::$line"
           done
