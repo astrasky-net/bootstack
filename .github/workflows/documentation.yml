@@ -42,8 +42,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # sparse-checkout: |
-          #   docs
+          sparse-checkout: |
+            docs/*
           #   docs/docs
           #   docs/site
           #   docs/includes
