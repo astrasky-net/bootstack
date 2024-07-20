@@ -1,5 +1,5 @@
-![Bootstack](img/bootstack-logo-black.svg#gh-light-mode-only)
-![Bootstack](img/bootstack-logo-white.svg#gh-dark-mode-only)
+![Bootstack](.github/assets/bootstack-logo-black.svg#gh-light-mode-only)
+![Bootstack](.github/assets/bootstack-logo-white.svg#gh-dark-mode-only)
 
 # Bootstack
 
