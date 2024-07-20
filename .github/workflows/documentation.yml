@@ -92,7 +92,7 @@ jobs:
           GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY }}
         run: |
           cd docs  # Change to the docs directory
-          mkdocs build --clean --site-dir docs/site  # Specify output directory
+          mkdocs build --clean
           mkdocs --version
 
       - name: Adjust permissions
