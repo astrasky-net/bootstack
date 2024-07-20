@@ -20,19 +20,20 @@
 
 # Project information
 site_name: Bootstack
-site_url: https://squidfunk.github.io/mkdocs-material/
-site_author: Martin Donath
+site_url: https://bootstack.app/
+site_author: Astra Sky
+site_dir: site
 site_description: >-
   Write your documentation in Markdown and create a professional static site in
   minutes – searchable, customizable, in 60+ languages, for all devices
-exclude_docs: overrides/
+
 
 # Repository
-repo_name: squidfunk/mkdocs-material
-repo_url: https://github.com/squidfunk/mkdocs-material
+repo_name: astrasky-net/bootstack
+repo_url: https://github.com/astrasky-net/bootstack
 
 # Copyright
-copyright: Copyright &copy; 2016 - 2024 Martin Donath
+copyright: Copyright &copy; 2024 Astrasky
 
 # Configuration
 theme:
