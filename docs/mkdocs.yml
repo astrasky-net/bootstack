@@ -40,6 +40,8 @@ theme:
   name: material
   logo: assets/logo.png
   custom_dir: overrides
+  extra_css:
+  - stylesheets/extra.css
   features:
     - announce.dismiss
     - content.action.edit
