@@ -92,12 +92,11 @@ jobs:
           GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY }}
         run: |
           cd docs  # Change to the docs directory
-          mkdocs build --clean
+          mkdocs build --clean 
           mkdocs --version
 
       - name: Adjust permissions
         run: |
-          cd docs/site
           chmod -c -R +rX docs/site/ | while read line; do
             echo "::warning title=Invalid file permissions automatically fixed::$line"
           done
