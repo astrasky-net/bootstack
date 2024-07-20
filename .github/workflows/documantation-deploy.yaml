@@ -1,19 +1,39 @@
-name: Documentation - Deploy
+name: Documentation - Deploy 
 on:
   push:
     branches:
       - main
+permissions:
+  contents: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
+            
+      - name: Set cache ID based on Moscow time
+        run: echo "cache_id=$(TZ='Europe/Moscow' date '+%V')" >> $GITHUB_ENV
+
       - name: Install mkdocs requirements
         run: pip install -r requirements.txt
         working-directory: docs
-      - name: Publish documentation to gp-pages branch
+
+      - uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: docs/.cache
+          restore-keys: |
+            mkdocs-material-
+
+      - name: Publish documentation to gh-pages branch    
         run: mkdocs gh-deploy --force
         working-directory: docs
