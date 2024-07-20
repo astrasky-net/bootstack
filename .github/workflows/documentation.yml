@@ -117,8 +117,10 @@ jobs:
       - name: Push to gh-pages branch
         run: |
           git checkout -B gh-pages
-          git add -f docs/site/*
-          git commit -m "Deploy documentation to GitHub Pages"
+          mkdir -p site  # Create the site directory if it doesn't exist
+          cp -r docs/site/* site/  # Copy built documentation to site folder
+          git add -f site/*  # Force add files in site directory
+          git commit -m "Deploy documentation to GitHub Pages" || echo "No changes to commit"  # Prevent errors if there's nothing to commit
           git push --force "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:gh-pages
 
       - name: Save build cache
