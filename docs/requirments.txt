@@ -1,0 +1,9 @@
+mkdocs-material
+mkdocs-minify-plugin
+mkdocs-awesome-pages-plugin
+mkdocs-redirects
+mkdocs-rss-plugin
+mkdocs-static-i18n
+mkdocs-awesome-pages
+mkdocs-git-committers-plugin-2
+mkdocs-git-revision-date-localized-plugin1
