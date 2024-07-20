@@ -22,7 +22,6 @@
 site_name: Bootstack
 site_url: https://bootstack.app/
 site_author: Astra Sky
-site_dir: site
 site_description: >-
   Write your documentation in Markdown and create a professional static site in
   minutes – searchable, customizable, in 60+ languages, for all devices
@@ -40,7 +39,7 @@ theme:
   # language: en
   name: material
   logo: assets/logo.png
-  custom_dir: material/overrides
+  custom_dir: overrides
   features:
     - announce.dismiss
     - content.action.edit
@@ -154,9 +153,9 @@ plugins:
 
 # Hooks
 hooks:
-  - material/overrides/hooks/shortcodes.py
-  - material/overrides/hooks/translations.py
-  - material/overrides/hooks/patch_i18n.py
+  - overrides/hooks/shortcodes.py
+  - overrides/hooks/translations.py
+  - overrides/hooks/patch_i18n.py
 
 # Additional configuration
 extra:
