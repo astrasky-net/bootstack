@@ -45,6 +45,7 @@ jobs:
           sparse-checkout: |
             docs
             docs/docs
+            docs/site
             docs/includes
             docs/material/overrides
             docs/src/templates/partials/languages
