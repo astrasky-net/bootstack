@@ -119,9 +119,9 @@ jobs:
         run: |
           git checkout -B gh-pages
           # Clear the existing root directory and copy the new built site
-          rm -rf *  # Remove existing files in the root of gh-pages
+          # rm -rf *  # Remove existing files in the root of gh-pages
           cp -r docs/site/* .  # Copy only the built documentation to the root directory
-          git add -A  # Stage all changes in the root directory
+          # git add -A  # Stage all changes in the root directory
           git commit -m "Deploy documentation to GitHub Pages" || echo "No changes to commit"
           git push --force "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:gh-pages
 
