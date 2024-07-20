@@ -43,7 +43,7 @@ jobs:
         with:
           fetch-depth: 0
           sparse-checkout: |
-            docs/*
+            docs/
           #   docs/docs
           #   docs/site
           #   docs/includes
