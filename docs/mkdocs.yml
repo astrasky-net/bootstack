@@ -39,7 +39,7 @@ theme:
   # language: en
   name: material
   logo: assets/logo.png
-  custom_dir: overrides
+  custom_dir: material/overrides
   features:
     - announce.dismiss
     - content.action.edit
@@ -103,8 +103,12 @@ plugins:
         - en
         - ru
         - hy
+  - awesome-pages
   - minify:
       minify_html: true
+      minify_js: true
+      htmlmin_opts:
+        remove_comments: true
   - i18n:
       reconfigure_material: true
       # reconfigure_search: true
@@ -153,29 +157,22 @@ plugins:
 
 # Hooks
 hooks:
-  - overrides/hooks/shortcodes.py
-  - overrides/hooks/translations.py
-  - overrides/hooks/patch_i18n.py
+  - material/overrides/hooks/shortcodes.py
+  - material/overrides/hooks/translations.py
+  - material/overrides/hooks/patch_i18n.py
 
 # Additional configuration
 extra:
   status:
     new: Recently added
     deprecated: Deprecated
-  analytics:
-    provider: google
-    property: !ENV GOOGLE_ANALYTICS_KEY
+  # analytics:
+  #   provider: google
+  #   property: !ENV GOOGLE_ANALYTICS_KEY
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/squidfunk
-    - icon: fontawesome/brands/docker
-      link: https://hub.docker.com/r/squidfunk/mkdocs-material/
-    - icon: fontawesome/brands/python
-      link: https://pypi.org/project/mkdocs-material/
-    - icon: fontawesome/brands/mastodon
-      link: https://fosstodon.org/@squidfunk
-    - icon: fontawesome/brands/x-twitter
-      link: https://x.com/squidfunk
+      link: https://github.com/astrasky-net
+
 # Extensions
 markdown_extensions:
   - abbr
@@ -204,8 +201,8 @@ markdown_extensions:
   - pymdownx.magiclink:
       normalize_issue_symbols: true
       repo_url_shorthand: true
-      user: squidfunk
-      repo: mkdocs-material
+      user: astrasky-net
+      repo: bootstack
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.snippets:
@@ -340,7 +337,7 @@ nav:
       - Requesting a change: contributing/requesting-a-change.md
       - Adding translations: contributing/adding-translations.md
       - Making a pull request: contributing/making-a-pull-request.md
-      - Asking a question: https://github.com/squidfunk/mkdocs-material/discussions
+      - Asking a question: https://github.com/astrasky-net/bootstackc/discussions
     - Guides:
       - Creating a reproduction: guides/creating-a-reproduction.md
     - Community experts program:
