@@ -5,8 +5,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
+    external-dns.alpha.kubernetes.io/target: "{{ $host }}"
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    acme.cert-manager.io/http01-ingress-class: tenant-root
   name: dashboard-{{ .Release.Namespace }}
   namespace: bootstack-dashboard
 spec:
