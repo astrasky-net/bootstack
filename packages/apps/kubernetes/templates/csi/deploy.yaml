@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: {{ .Release.Name }}-kcsi-driver
+        policy.boostack.app/allow-to-apiserver: "true"
     spec:
       serviceAccountName: {{ .Release.Name }}-kcsi
       priorityClassName: system-cluster-critical
