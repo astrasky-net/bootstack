@@ -55,6 +55,12 @@ releases:
   namespace: bootstack-external-secrets-operator
   dependsOn: [cilium,cert-manager,onepassword-connect]  
 
+- name: onepassword-connect
+  releaseName: onepassword-connect
+  chart: bootstack-onepassword-connect
+  namespace: bootstack-onepassword-connect
+  dependsOn: [cilium,cert-manager]
+  
 - name: external-dns
   releaseName: external-dns
   chart: bootstack-external-dns
