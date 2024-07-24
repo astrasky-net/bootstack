@@ -1,1 +1,1 @@
-ghcr.io/astrasky-net/dashboard:v1.0.3
+ghcr.io/astrasky-net/dashboard:v0.10.0
