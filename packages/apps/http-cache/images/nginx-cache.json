@@ -32,7 +32,7 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/7rrsekdeus08ym8jlya6wvuth",
+  "buildx.build.ref": "my-builder/my-builder0/jy5m07xqw1s7t37rk08rnlpds",
   "containerimage.config.digest": "sha256:3234b88741d4e8971081462c6d78ec57299a73d0b2f9ac5021cd5e2707e77c25",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
@@ -44,5 +44,5 @@
     }
   },
   "containerimage.digest": "sha256:23a020c33e1c73baa57af5b2c4f2cc9235c04e927b67b375bb3f91924c3f8416",
-  "image.name": "ghcr.io/astrasky-net/nginx-cache:v0.1.0,ghcr.io/astrasky-net/nginx-cache:v0.1.0-v.0.10.0"
+  "image.name": "ghcr.io/astrasky-net/nginx-cache:v0.1.0,ghcr.io/astrasky-net/nginx-cache:v0.1.0-v0.10.0"
 }
