@@ -68,7 +68,7 @@ spec:
       serviceAccountName: bootstack
       containers:
       - name: bootstack
-        image: "ghcr.io/astrasky-net/bootstack:latest"
+        image: "ghcr.io/astrasky-net/bootstack:v1.0.3"
         env:
         - name: KUBERNETES_SERVICE_HOST
           value: localhost
@@ -87,7 +87,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
       - name: darkhttpd
-        image: "ghcr.io/astrasky-net/bootstack:latest"
+        image: "ghcr.io/astrasky-net/bootstack:v1.0.3"
         command:
         - /usr/bin/darkhttpd
         - /bootstack/assets

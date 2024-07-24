@@ -1,1 +1,1 @@
-ghcr.io/astrasky-net/bootstack:latest
+ghcr.io/astrasky-net/bootstack:v1.0.3
