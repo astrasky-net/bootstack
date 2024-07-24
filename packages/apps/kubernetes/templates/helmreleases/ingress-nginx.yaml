@@ -5,7 +5,7 @@ metadata:
   name: {{ .Release.Name }}-ingress-nginx
   labels:
     bootstack.app/repository: system
-    bootstack.app/target-cluster-name: {{ .Release.Name }}
+    coztstack.io/target-cluster-name: {{ .Release.Name }}
 spec:
   interval: 5m
   releaseName: ingress-nginx

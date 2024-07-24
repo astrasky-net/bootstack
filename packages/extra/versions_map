@@ -2,4 +2,5 @@ etcd 2.1.0 f21c4bf0
 etcd 2.2.0 HEAD
 ingress 1.1.0 f21c4bf0
 ingress 1.2.0 HEAD
-monitoring 1.1.0 HEAD
+monitoring 1.1.0 fde49cf9
+monitoring 1.2.0 HEAD

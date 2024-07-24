@@ -1,9 +1,9 @@
 #!/bin/bash
-if [ "$bootstack_INSTALLER_YAML" = "" ]; then
-  echo 'bootstack_INSTALLER_YAML variable is not set!' >&2
+if [ "$BOOTSTACK_INSTALLER_YAML" = "" ]; then
+  echo 'BOOTSTACK_INSTALLER_YAML variable is not set!' >&2
   echo 'please set it with following command:' >&2
   echo >&2
-  echo 'export bootstack_INSTALLER_YAML=$(helm template -n bootstack-system installer packages/core/installer)' >&2
+  echo 'export BOOTSTACK_INSTALLER_YAML=$(helm template -n bootstack-system installer packages/core/installer)' >&2
   echo >&2
   exit 1
 fi
@@ -60,7 +60,7 @@ done
 
 # Prepare system drive
 if [ ! -f nocloud-amd64.raw ]; then
-  wget https://github.com/aenix-io/bootstack/releases/latest/download/nocloud-amd64.raw.xz -O nocloud-amd64.raw.xz
+  wget https://github.com/astrasky-net/bootstack/releases/latest/download/nocloud-amd64.raw.xz -O nocloud-amd64.raw.xz
   rm -f nocloud-amd64.raw
   xz --decompress nocloud-amd64.raw.xz
 fi
@@ -114,7 +114,7 @@ machine:
     - name: zfs
     - name: spl
   install:
-    image: ghcr.io/bootstackauto/talos:v1.7.5
+    image: ghcr.io/astrasky-net/bootstack/talos:v1.7.5
   files:
   - content: |
       [plugins]
@@ -206,7 +206,7 @@ data:
 EOT
 
 #
-echo "$bootstack_INSTALLER_YAML" | kubectl apply -f -
+echo "$BOOTSTACK_INSTALLER_YAML" | kubectl apply -f -
 
 # wait for bootstack pod to start
 kubectl wait deploy  --timeout=1m --for=condition=available -n bootstack-system bootstack
@@ -287,7 +287,8 @@ kubectl patch -n tenant-root hr/tenant-root --type=merge -p '{"spec":{ "values":
   "host": "example.org",
   "ingress": true,
   "monitoring": true,
-  "etcd": true
+  "etcd": true,
+  "isolation": true
 }}}'
 
 # Wait for HelmRelease be created

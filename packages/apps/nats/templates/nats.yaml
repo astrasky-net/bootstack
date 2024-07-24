@@ -9,7 +9,7 @@ spec:
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
-        name: bootstackstack-system
+        name: bootstack-system
         namespace: bootstack-system
       version: '*'
   interval: 1m0s

@@ -52,8 +52,6 @@ spec:
             emptyDisk:
               capacity: 20Gi
 {{- end }}
-
-
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
@@ -110,7 +108,7 @@ spec:
   deployment:
     podAdditionalMetadata:
       labels:
-        policy.boostack.app/allow-to-etcd: "true"  
+        policy.bootstack.app/allow-to-etcd: "true"
   replicas: 2
   version: 1.30.1
 ---

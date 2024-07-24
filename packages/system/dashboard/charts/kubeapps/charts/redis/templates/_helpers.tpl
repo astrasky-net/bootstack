@@ -1,5 +1,5 @@
 {{/*
-Copyright Broadcom, Inc. All Rights Reserved.
+Copyright VMware, Inc.
 SPDX-License-Identifier: APACHE-2.0
 */}}
 
@@ -322,8 +322,8 @@ redis: tls.enabled
 
 {{/* Validate values of Redis&reg; - master service enabled */}}
 {{- define "redis.validateValues.createMaster" -}}
-{{- if and (or .Values.sentinel.masterService.enabled .Values.sentinel.service.createMaster) (or (not .Values.rbac.create) (not .Values.replica.automountServiceAccountToken) (not .Values.serviceAccount.create)) }}
-redis: sentinel.masterService.enabled
+{{- if and .Values.sentinel.service.createMaster (or (not .Values.rbac.create) (not .Values.replica.automountServiceAccountToken) (not .Values.serviceAccount.create)) }}
+redis: sentinel.service.createMaster
     In order to redirect requests only to the master pod via the service, you also need to
     create rbac and serviceAccount. In addition, you need to enable
     replica.automountServiceAccountToken.

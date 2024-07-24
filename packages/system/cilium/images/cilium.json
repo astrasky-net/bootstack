@@ -11,7 +11,7 @@
       {
         "uri": "pkg:docker/golang@1.22-bookworm?platform=linux%2Famd64",
         "digest": {
-          "sha256": "2bb0eaa8ecf0fcc672cce22ba289df6f809e5c19a81becc0ac04a74c13148332"
+          "sha256": "af9b40f2b1851be993763b85288f8434af87b5678af04355b1e33ff530b5765f"
         }
       },
       {
@@ -45,17 +45,17 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/skteggekykrnldcikz85biicr",
-  "containerimage.config.digest": "sha256:e8211df81deae37de0f6f5e4818160fca0a04a24e04efe5c903e15788e0799b9",
+  "buildx.build.ref": "my-builder/my-builder0/jxc7xn6i2o8hurumgj2qhdabw",
+  "containerimage.config.digest": "sha256:2b180be92400db6fd5ae1fc828443cabeb153bf87eb797c140befb89fa4d5203",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:bda102012d7e10980bcaaf31105edf5df728844d00462d03ae24a93b9cd55118",
+    "digest": "sha256:3c8b80f1ce7c2775d41e8893bddcf97569f2d971a50cdfaf16a1cc82e5d90a7a",
     "size": 2083,
     "platform": {
       "architecture": "amd64",
       "os": "linux"
     }
   },
-  "containerimage.digest": "sha256:bda102012d7e10980bcaaf31105edf5df728844d00462d03ae24a93b9cd55118",
+  "containerimage.digest": "sha256:3c8b80f1ce7c2775d41e8893bddcf97569f2d971a50cdfaf16a1cc82e5d90a7a",
   "image.name": "ghcr.io/astrasky-net/cilium:1.15.5,ghcr.io/astrasky-net/cilium:1.15.5-v1.0.2"
 }

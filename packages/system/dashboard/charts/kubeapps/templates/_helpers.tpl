@@ -1,5 +1,5 @@
 {{/*
-Copyright Broadcom, Inc. All Rights Reserved.
+Copyright VMware, Inc.
 SPDX-License-Identifier: APACHE-2.0
 */}}
 
@@ -9,7 +9,7 @@ SPDX-License-Identifier: APACHE-2.0
 Return the proper Docker Image Registry Secret Names
 */}}
 {{- define "kubeapps.imagePullSecrets" -}}
-{{ include "common.images.renderPullSecrets" (dict "images" (list .Values.frontend.image .Values.dashboard.image .Values.apprepository.image .Values.apprepository.syncImage .Values.authProxy.image .Values.pinnipedProxy.image .Values.kubeappsapis.image) "context" $) }}
+{{ include "common.images.pullSecrets" (dict "images" (list .Values.frontend.image .Values.dashboard.image .Values.apprepository.image .Values.apprepository.syncImage .Values.authProxy.image .Values.pinnipedProxy.image .Values.kubeappsapis.image) "global" .Values.global) }}
 {{- end -}}
 
 {{/*

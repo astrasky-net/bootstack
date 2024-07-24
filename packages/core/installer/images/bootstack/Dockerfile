@@ -33,6 +33,7 @@ COPY scripts /bootstack/scripts
 COPY --from=builder /src/packages/core /bootstack/packages/core
 COPY --from=builder /src/packages/system /bootstack/packages/system
 COPY --from=builder /src/_out/repos /bootstack/assets/repos
+COPY --from=builder /src/_out/logos /bootstack/assets/logos
 COPY --from=k8s-await-election-builder /k8s-await-election /usr/bin/k8s-await-election
 COPY dashboards /bootstack/assets/dashboards
 

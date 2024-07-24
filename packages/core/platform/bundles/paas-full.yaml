@@ -49,6 +49,24 @@ releases:
   namespace: bootstack-cert-manager
   dependsOn: [cilium,kubeovn,cert-manager]
 
+- name: external-secrets-operator
+  releaseName: external-secrets-operator
+  chart: bootstack-external-secrets-operator
+  namespace: bootstack-external-secrets-operator
+  dependsOn: [cilium,cert-manager,onepassword-connect]  
+
+- name: external-dns
+  releaseName: external-dns
+  chart: bootstack-external-dns
+  namespace: bootstack-external-dns
+  dependsOn: [cilium,cert-manager]  
+
+- name: argo-cd
+  releaseName: argo-cd
+  chart: bootstack-argo-cd
+  namespace: bootstack-argo-cd
+  dependsOn: [cilium,kubeovn]
+  
 - name: victoria-metrics-operator
   releaseName: victoria-metrics-operator
   chart: bootstack-victoria-metrics-operator
@@ -117,30 +135,6 @@ releases:
   chart: bootstack-postgres-operator
   namespace: bootstack-postgres-operator
   dependsOn: [cilium,kubeovn,cert-manager]
-
-- name: onepassword-connect
-  releaseName: onepassword-connect
-  chart: bootstack-onepassword-connect
-  namespace: bootstack-onepassword-connect
-  dependsOn: [cilium,cert-manager]
-
-- name: external-secrets-operator
-  releaseName: external-secrets-operator
-  chart: bootstack-external-secrets-operator
-  namespace: bootstack-external-secrets-operator
-  dependsOn: [cilium,cert-manager,onepassword-connect]  
-
-- name: external-dns
-  releaseName: external-dns
-  chart: bootstack-external-dns
-  namespace: bootstack-external-dns
-  dependsOn: [cilium,cert-manager]  
-
-- name: argo-cd
-  releaseName: argo-cd
-  chart: bootstack-argo-cd
-  namespace: bootstack-argo-cd
-  dependsOn: [cilium,kubeovn]
 
 - name: kafka-operator
   releaseName: kafka-operator

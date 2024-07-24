@@ -9,12 +9,12 @@ spec:
   selector:
     matchLabels:
       app: {{ .Release.Name }}-cluster-autoscaler
-      policy.boostack.app/allow-to-apiserver: "true"
   replicas: 1
   template:
     metadata:
       labels:
         app: {{ .Release.Name }}-cluster-autoscaler
+        policy.bootstack.app/allow-to-apiserver: "true"
     spec:
       tolerations:
         - key: CriticalAddonsOnly
