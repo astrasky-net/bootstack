@@ -45,17 +45,17 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/jxc7xn6i2o8hurumgj2qhdabw",
-  "containerimage.config.digest": "sha256:2b180be92400db6fd5ae1fc828443cabeb153bf87eb797c140befb89fa4d5203",
+  "buildx.build.ref": "my-builder/my-builder0/mjuts67fw7f0v2kd7qj2kpupb",
+  "containerimage.config.digest": "sha256:4356098277e7fa31efe7963e5e6431d60ceaebcc327f3f9c790ae418110bc3ea",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:3c8b80f1ce7c2775d41e8893bddcf97569f2d971a50cdfaf16a1cc82e5d90a7a",
+    "digest": "sha256:0673e3f2282c74ed6c6da0833f76fc5e95eb7bedd1b78f115d077c4f39721874",
     "size": 2083,
     "platform": {
       "architecture": "amd64",
       "os": "linux"
     }
   },
-  "containerimage.digest": "sha256:3c8b80f1ce7c2775d41e8893bddcf97569f2d971a50cdfaf16a1cc82e5d90a7a",
-  "image.name": "ghcr.io/astrasky-net/cilium:1.15.5,ghcr.io/astrasky-net/cilium:1.15.5-v1.0.2"
+  "containerimage.digest": "sha256:0673e3f2282c74ed6c6da0833f76fc5e95eb7bedd1b78f115d077c4f39721874",
+  "image.name": "ghcr.io/astrasky-net/cilium:1.15.5,ghcr.io/astrasky-net/cilium:1.15.5-v1.0.3"
 }
