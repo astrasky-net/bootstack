@@ -45,6 +45,13 @@ releases:
   namespace: bootstack-etcd-operator
   dependsOn: [cert-manager]
 
+
+- name: minio-operator
+  releaseName: minio-operator
+  chart: minio-etcd-operator
+  namespace: minio-etcd-operator
+  dependsOn: []
+
 - name: grafana-operator
   releaseName: grafana-operator
   chart: bootstack-grafana-operator
