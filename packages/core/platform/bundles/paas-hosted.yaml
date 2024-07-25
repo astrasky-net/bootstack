@@ -48,8 +48,8 @@ releases:
 
 - name: minio-operator
   releaseName: minio-operator
-  chart: minio-etcd-operator
-  namespace: minio-etcd-operator
+  chart: bootstack-minio-operator
+  namespace: bootstack-minio-operator
   dependsOn: []
 
 - name: grafana-operator
