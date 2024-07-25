@@ -67,6 +67,14 @@ releases:
   namespace: bootstack-external-dns
   dependsOn: [cilium,cert-manager]  
 
+
+- name: snapshot-controller
+  releaseName: snapshot-controller
+  chart: bootstack-snapshot-controller
+  namespace: bootstack-snapshot-controller
+  dependsOn: [cilium,cert-manager,piraeus-operator]  
+
+
 - name: argo-cd
   releaseName: argo-cd
   chart: bootstack-argo-cd

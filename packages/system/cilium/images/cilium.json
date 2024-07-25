@@ -45,7 +45,7 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/pynsh158j06ac2gwl24tebby4",
+  "buildx.build.ref": "my-builder/my-builder0/c78ijmx5vmsuk1d5mbmzt4dxb",
   "containerimage.config.digest": "sha256:1d3eb87b5b9a9ee15c216c9b4a429914b070b326ae9ed3a44f312c70b1fa9175",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
@@ -57,5 +57,5 @@
     }
   },
   "containerimage.digest": "sha256:7e4895b8f78cc6525e3b51452ba92bf69645547be2b815d57f286b6026a27fe5",
-  "image.name": "ghcr.io/astrasky-net/cilium:1.15.5,ghcr.io/astrasky-net/cilium:1.15.5-v1.0.0"
+  "image.name": "ghcr.io/astrasky-net/cilium:latest,ghcr.io/astrasky-net/cilium:latest"
 }

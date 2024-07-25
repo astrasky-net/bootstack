@@ -1,1 +1,1 @@
-ghcr.io/astrasky-net/cilium:1.15.5
+ghcr.io/astrasky-net/cilium:latest
