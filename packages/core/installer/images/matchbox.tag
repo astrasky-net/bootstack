@@ -1,1 +1,1 @@
-ghcr.io/astrasky-net/matchbox:latest
+ghcr.io/astrasky-net/matchbox:v1.7.5
