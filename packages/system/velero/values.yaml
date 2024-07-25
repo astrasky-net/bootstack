@@ -1,0 +1,5 @@
+velero:
+  backupsEnabled: false
+  deployNodeAgent: false
+  credentials:
+    useSecret: false
