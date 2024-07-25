@@ -1,9 +1,9 @@
 snapshot-controller:
   controller:
-    replicaCount: 1
+    replicaCount: 2
     revisionHistoryLimit: 10
   webhook:
-    replicaCount: 1
+    replicaCount: 2
     revisionHistoryLimit: 10
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet

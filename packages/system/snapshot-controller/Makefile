@@ -1,4 +1,4 @@
-export NAME=external-secrets-operator
+export NAME=snapshot-controller
 export NAMESPACE=bootstack-$(NAME)
 
 include ../../../scripts/package-system.mk
