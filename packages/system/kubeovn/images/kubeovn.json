@@ -5,7 +5,7 @@
       {
         "uri": "pkg:docker/kubeovn/kube-ovn-base@v1.13.0?platform=linux%2Famd64",
         "digest": {
-          "sha256": "397cab7d540326c237afd2dc7b45bb976c7fafb61ff4d3a47d18f3334fd6c5a9"
+          "sha256": "ecf88d1020ceb949ec092b364c141af3663b41f74b37a368989a657c294c5ca6"
         }
       },
       {
@@ -35,17 +35,17 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/woitxtz123n1x32p9mjkx5w1t",
-  "containerimage.config.digest": "sha256:b5b30eebbe291534f0c6428de8d5effcb493e0b3a6dcd17f92c58036d901bb34",
+  "buildx.build.ref": "my-builder/my-builder0/t4kjwcvn6917ypru8dvojoo4f",
+  "containerimage.config.digest": "sha256:699ff8f0d69657cf3ef82e1cb056d354cff08a9df5f6ffb989e5603cd093c240",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:076c3c832ceb693d933d3ec067607ba0dcbba2cc842b92fbe76d8f84cb438938",
+    "digest": "sha256:b3bf422d5196b16428a697539fe21dc443a5d26c19627977908ac3e88d0410cb",
     "size": 4627,
     "platform": {
       "architecture": "amd64",
       "os": "linux"
     }
   },
-  "containerimage.digest": "sha256:076c3c832ceb693d933d3ec067607ba0dcbba2cc842b92fbe76d8f84cb438938",
+  "containerimage.digest": "sha256:b3bf422d5196b16428a697539fe21dc443a5d26c19627977908ac3e88d0410cb",
   "image.name": "ghcr.io/astrasky-net/kubeovn:v1.13.0,ghcr.io/astrasky-net/kubeovn:v1.13.0-v1.0.0"
 }
