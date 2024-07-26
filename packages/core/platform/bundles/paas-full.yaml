@@ -74,6 +74,11 @@ releases:
   namespace: bootstack-snapshot-controller
   dependsOn: [cilium,cert-manager,piraeus-operator]  
 
+- name: velero
+  releaseName: velero
+  chart: bootstack-velero
+  namespace: bootstack-velero
+  dependsOn: [cilium,kubeovn,snapshot-controller]  
 
 - name: argo-cd
   releaseName: argo-cd
