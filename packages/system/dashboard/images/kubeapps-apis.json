@@ -41,17 +41,17 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/209dqtmu6xh5ax3hqkbp6gzby",
-  "containerimage.config.digest": "sha256:093b86dcece4cd8a0b066de6feee67e9df7cd0941d4057cc417ac87c43de4678",
+  "buildx.build.ref": "my-builder/my-builder0/ssm8dofkfchdtn9250x6sa1p1",
+  "containerimage.config.digest": "sha256:89463029169f406f30d27a470a909d5ecd8ffcf11a0c223edac285c0b1e9b0b9",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:16060978044b7a72284c0011e3b9db599523e0844cc6cc5202a497165d4063b4",
+    "digest": "sha256:fe0ba5cd375a77e3c26160b9824f9815e2ebd01ddf692a51cd6f8d20aa1acff5",
     "size": 1890,
     "platform": {
       "architecture": "amd64",
       "os": "linux"
     }
   },
-  "containerimage.digest": "sha256:16060978044b7a72284c0011e3b9db599523e0844cc6cc5202a497165d4063b4",
+  "containerimage.digest": "sha256:fe0ba5cd375a77e3c26160b9824f9815e2ebd01ddf692a51cd6f8d20aa1acff5",
   "image.name": "ghcr.io/astrasky-net/kubeapps-apis:v1.0.0"
 }

@@ -72,7 +72,13 @@ releases:
   releaseName: snapshot-controller
   chart: bootstack-snapshot-controller
   namespace: bootstack-snapshot-controller
-  dependsOn: [cilium,cert-manager,piraeus-operator]  
+  dependsOn: [cilium,kubeovn,cert-manager-issuers]  
+
+- name: minio-operator
+  releaseName: minio-operator
+  chart: bootstack-minio-operator
+  namespace: bootstack-minio-operator
+  dependsOn: [cilium,kubeovn,cert-manager-issuers]
 
 - name: velero
   releaseName: velero
