@@ -4,24 +4,24 @@ kind: HelmRelease
 metadata:
   name: {{ .Release.Name }}-cert-manager
   labels:
-    bootstack.app/repository: system
+    cozystack.io/repository: system
     coztstack.io/target-cluster-name: {{ .Release.Name }}
 spec:
   interval: 5m
   releaseName: cert-manager
   chart:
     spec:
-      chart: bootstack-cert-manager
+      chart: cozy-cert-manager
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
-        name: bootstack-system
-        namespace: bootstack-system
+        name: cozystack-system
+        namespace: cozy-system
   kubeConfig:
     secretRef:
       name: {{ .Release.Name }}-kubeconfig
-  targetNamespace: bootstack-cert-manager
-  storageNamespace: bootstack-cert-manager
+  targetNamespace: cozy-cert-manager
+  storageNamespace: cozy-cert-manager
   install:
     createNamespace: true
     remediation:

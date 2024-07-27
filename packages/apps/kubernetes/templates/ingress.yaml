@@ -1,5 +1,6 @@
 {{- $myNS := lookup "v1" "Namespace" "" .Release.Namespace }}
 {{- $ingress := index $myNS.metadata.annotations "namespace.bootstack.app/ingress" }}
+{{- $host := index $myNS.metadata.annotations "namespace.bootstack.app/host" }}
 {{- if .Values.addons.ingressNginx.hosts }}
 ---
 apiVersion: networking.k8s.io/v1
@@ -9,6 +10,16 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    external-dns.alpha.kubernetes.io/target: "{{ $host }}"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/backend-protocol: "AUTO_HTTP"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      set $proxy_upstream_name "{{ .Release.Namespace }}-{{ .Release.Name }}-ingress-nginx-80";
+      if ($scheme = https) {
+        set $proxy_upstream_name "{{ .Release.Namespace }}-{{ .Release.Name }}-ingress-nginx-443";
+        set $service_port 443;
+      }
+      set $proxy_host $proxy_upstream_name;
 spec:
   ingressClassName: "{{ $ingress }}"
   rules:
@@ -22,7 +33,20 @@ spec:
           service:
             name: {{ $.Release.Name }}-ingress-nginx
             port:
+              number: 80
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ $.Release.Name }}-ingress-nginx
+            port:
               number: 443
+  {{- end }}
+  tls:
+  {{- range .Values.addons.ingressNginx.hosts }}
+  - hosts:
+    - {{ . | quote }}
+    secretName: {{ . | quote }}-ingress-tls
   {{- end }}
 ---
 apiVersion: v1

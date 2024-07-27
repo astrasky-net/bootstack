@@ -4,24 +4,24 @@ kind: HelmRelease
 metadata:
   name: {{ .Release.Name }}-fluxcd-operator
   labels:
-    bootstack.app/repository: system
+    cozystack.io/repository: system
     coztstack.io/target-cluster-name: {{ .Release.Name }}
 spec:
   interval: 5m
   releaseName: fluxcd-operator
   chart:
     spec:
-      chart: bootstack-fluxcd-operator
+      chart: cozy-fluxcd-operator
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
-        name: bootstack-system
-        namespace: bootstack-system
+        name: cozystack-system
+        namespace: cozy-system
   kubeConfig:
     secretRef:
       name: {{ .Release.Name }}-kubeconfig
-  targetNamespace: bootstack-fluxcd
-  storageNamespace: bootstack-fluxcd
+  targetNamespace: cozy-fluxcd
+  storageNamespace: cozy-fluxcd
   install:
     createNamespace: true
     remediation:
@@ -47,24 +47,24 @@ kind: HelmRelease
 metadata:
   name: {{ .Release.Name }}-fluxcd
   labels:
-    bootstack.app/repository: system
+    cozystack.io/repository: system
     coztstack.io/target-cluster-name: {{ .Release.Name }}
 spec:
   interval: 5m
   releaseName: fluxcd
   chart:
     spec:
-      chart: bootstack-fluxcd
+      chart: cozy-fluxcd
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
-        name: bootstack-system
-        namespace: bootstack-system
+        name: cozystack-system
+        namespace: cozy-system
   kubeConfig:
     secretRef:
       name: {{ .Release.Name }}-kubeconfig
-  targetNamespace: bootstack-fluxcd
-  storageNamespace: bootstack-fluxcd
+  targetNamespace: cozy-fluxcd
+  storageNamespace: cozy-fluxcd
   install:
     createNamespace: true
     remediation:

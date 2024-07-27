@@ -1,5 +1,5 @@
 export NAME=ingress-nginx
-export NAMESPACE=bootstack-$(NAME)
+export NAMESPACE=cozy-$(NAME)
 
 include ../../../scripts/package-system.mk
 

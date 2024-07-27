@@ -3,24 +3,24 @@ kind: HelmRelease
 metadata:
   name: {{ .Release.Name }}-cilium
   labels:
-    bootstack.app/repository: system
+    cozystack.io/repository: system
     coztstack.io/target-cluster-name: {{ .Release.Name }}
 spec:
   interval: 5m
   releaseName: cilium
   chart:
     spec:
-      chart: bootstack-cilium
+      chart: cozy-cilium
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
-        name: bootstack-system
-        namespace: bootstack-system
+        name: cozystack-system
+        namespace: cozy-system
   kubeConfig:
     secretRef:
       name: {{ .Release.Name }}-kubeconfig
-  targetNamespace: bootstack-cilium
-  storageNamespace: bootstack-cilium
+  targetNamespace: cozy-cilium
+  storageNamespace: cozy-cilium
   install:
     createNamespace: true
     remediation:
