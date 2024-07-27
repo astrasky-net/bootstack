@@ -29,17 +29,17 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/6vxaa234p025p3po8u3d9rck3",
-  "containerimage.config.digest": "sha256:923b2e0a73b6958da6ca1f29f7e3e7563ec922ac5da2f2c224469ec23c12a5d0",
+  "buildx.build.ref": "my-builder/my-builder0/k7xujdfabonr3wn94gqnfp8p0",
+  "containerimage.config.digest": "sha256:e60ad97827f875b886c1c28040ad3d99883d994b16b56c9416ce1188be79e87c",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:630117617db1f2e59726dec9c33907c1013ec1e90936af87daa5e25256e7a756",
+    "digest": "sha256:e29f3ddf0539d0a7ede550e45e652498c64cec4fee9a0cb749c0704dbf32e8a3",
     "size": 1488,
     "platform": {
       "architecture": "amd64",
       "os": "linux"
     }
   },
-  "containerimage.digest": "sha256:630117617db1f2e59726dec9c33907c1013ec1e90936af87daa5e25256e7a756",
-  "image.name": "ghcr.io/astrasky-net/matchbox:latest,ghcr.io/astrasky-net/matchbox:latest"
+  "containerimage.digest": "sha256:e29f3ddf0539d0a7ede550e45e652498c64cec4fee9a0cb749c0704dbf32e8a3",
+  "image.name": "ghcr.io/astrasky-net/matchbox:v1.0.0,ghcr.io/astrasky-net/matchbox:v1.7.5-v1.0.0"
 }
