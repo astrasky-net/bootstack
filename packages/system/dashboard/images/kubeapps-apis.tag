@@ -1,1 +1,1 @@
-ghcr.io/astrasky-net/kubeapps-apis:1.0.0
+ghcr.io/astrasky-net/kubeapps-apis:latest
