@@ -2,7 +2,8 @@ clickhouse 0.2.1 HEAD
 ferretdb 0.1.0 HEAD
 http-cache 0.2.0 HEAD
 kafka 0.2.2 HEAD
-kubernetes 0.7.0 HEAD
+kubernetes 0.7.0 516fe9b2
+kubernetes 0.8.0 HEAD
 mysql 0.3.0 HEAD
 nats 0.1.0 HEAD
 postgres 0.4.0 HEAD
