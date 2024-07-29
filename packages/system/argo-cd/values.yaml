@@ -45,6 +45,15 @@ argo-cd:
           - ".webhooks[]?.clientConfig.caBundle"
           - ".webhooks[]?.failurePolicy"
           
+      # Define resource exclusions
+      resource.exclusions: |
+        - apiGroups:
+            - cilium.io
+          kinds:
+            - CiliumIdentity
+          clusters:
+            - "*"
+          
 
     params:
       server.insecure: true
