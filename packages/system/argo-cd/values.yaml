@@ -81,7 +81,7 @@ argo-cd:
   repoServer:
     autoscaling:
       enabled: true
-      minReplicas: 2       
+      minReplicas: 1      
     volumes:
       - name: custom-tools
         emptyDir: {}
@@ -141,4 +141,4 @@ argo-cd:
       type: LoadBalancer 
 
   applicationSet:
-    replicas: 2
+    replicas: 1

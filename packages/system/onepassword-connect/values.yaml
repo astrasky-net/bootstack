@@ -1,7 +1,7 @@
 # This section of values is for 1Password Connect API and Sync Configuration
 connect:
   connect:
-    replicas: 2
+    replicas: 1
     api:
       serviceMonitor:
         enabled: true
