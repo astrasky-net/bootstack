@@ -1,7 +1,7 @@
 ARG VERSION=v1.13.0
 ARG BASE_TAG=$VERSION
 
-FROM golang:1.22-bookworm as builder
+FROM golang:1.22-bookworm AS builder
 
 ARG COMMIT_REF=e1310e1
 
@@ -28,7 +28,8 @@ RUN /kube-ovn/iptables-wrapper-installer.sh --no-sanity-check
 RUN rm -f /usr/bin/nc &&\
     rm -f /usr/bin/netcat &&\
     rm -f /usr/lib/apt/methods/mirror
-RUN deluser sync
+# RUN if id "sync" &>/dev/null; then deluser sync; fi
+# RUN deluser sync
 
 COPY --from=builder /source/dist/images/kube-ovn /kube-ovn/kube-ovn
 COPY --from=builder /source/dist/images/kube-ovn-cmd /kube-ovn/kube-ovn-cmd

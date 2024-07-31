@@ -1,1 +1,1 @@
-ghcr.io/astrasky-net/kubeovn:v1.13.0
+ghcr.io/astrasky-net/kubeovn:latest
