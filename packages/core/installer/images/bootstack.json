@@ -1,10 +1,10 @@
 {
-  "buildx.build.ref": "my-builder/my-builder0/ssgi2czs2ak4po5pkgvswp491",
+  "buildx.build.ref": "my-builder/my-builder0/01zr4lhcm5ua2l418wwsgui6t",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.list.v2+json",
-    "digest": "sha256:b1c2470d3bbb8a3d410ede17bed8b7d89e2383b21551deec0dba955c069e2fc5",
+    "digest": "sha256:1f9b870b0ffb4a28ebb063942127870a9dfd6be7f3cdf7671d0b33d9a4f4ac72",
     "size": 685
   },
-  "containerimage.digest": "sha256:b1c2470d3bbb8a3d410ede17bed8b7d89e2383b21551deec0dba955c069e2fc5",
-  "image.name": "ghcr.io/astrasky-net/bootstack:latest"
+  "containerimage.digest": "sha256:1f9b870b0ffb4a28ebb063942127870a9dfd6be7f3cdf7671d0b33d9a4f4ac72",
+  "image.name": "ghcr.io/astrasky-net/bootstack:v1.0.0"
 }
