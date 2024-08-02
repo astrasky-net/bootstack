@@ -3,8 +3,8 @@ site_name: BOOTSTACK
 site_url: https://bootstack.app/
 site_author: Astrasky
 site_description: >-
-  Write your documentation in Markdown and create a professional static site in
-  minutes – searchable, customizable, in 60+ languages, for all devices
+  Simplify your cloud infrastructure setup with Bootstack, 
+  a powerful Kubernetes operator designed for ease and efficiency.
 
 
 # Repository
