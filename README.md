@@ -6,6 +6,8 @@
 [![Open Source](https://img.shields.io/badge/Open-Source-brightgreen)](https://opensource.org/)
 [![Apache-2.0 License](https://img.shields.io/github/license/astrasky-net/bootstack)](https://opensource.org/licenses/)
 
+Bootstack is a Kubernetes operator designed to streamline and simplify the creation of cloud infrastructures. Ideal for both physical and virtual environments, Bootstack optimizes deployment and management processes, ensuring efficient and scalable cloud solutions.
+
 ## Documentation
 
 The documentation is located on official [bootstack.app](https://bootstack.astrasky.net) website.
