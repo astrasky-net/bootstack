@@ -1,8 +1,6 @@
 ![Bootstack](.github/assets/bootstack-logo-black.svg#gh-light-mode-only)
 ![Bootstack](.github/assets/bootstack-logo-white.svg#gh-dark-mode-only)
-
 # Bootstack
-
 [![Open Source](https://img.shields.io/badge/Open-Source-brightgreen)](https://opensource.org/)
 [![Apache-2.0 License](https://img.shields.io/github/license/astrasky-net/bootstack)](https://opensource.org/licenses/)
 
