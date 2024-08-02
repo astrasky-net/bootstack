@@ -97,6 +97,9 @@ plugins:
       languages:
         - locale: en
           default: true
+          site_description: >-
+            Simplify your cloud infrastructure setup with Bootstack, 
+            a powerful Kubernetes operator designed for ease and efficiency.
           name: English
           build: true
         - locale: hy
