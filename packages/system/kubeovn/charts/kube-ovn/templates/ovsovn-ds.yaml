@@ -49,7 +49,6 @@ spec:
             - -xec
             - |
               chown -R nobody: /var/run/ovn /var/log/ovn /etc/openvswitch /var/run/openvswitch /var/log/openvswitch
-              iptables -V
           securityContext:
             allowPrivilegeEscalation: true
             capabilities:
