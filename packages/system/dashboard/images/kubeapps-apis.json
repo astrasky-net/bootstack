@@ -11,7 +11,7 @@
       {
         "uri": "pkg:docker/bitnami/minideb@bookworm?platform=linux%2Famd64",
         "digest": {
-          "sha256": "b13cb4b41be91e22858e9b050a51137b636a34694a92ff17c27cb010e5f93f04"
+          "sha256": "d3753cc163ec8549d13038c6dbdb8d48eb3781c51b49fd14618e19077c581ee9"
         }
       },
       {
@@ -41,17 +41,17 @@
       }
     }
   },
-  "buildx.build.ref": "my-builder/my-builder0/b7i6mn356jmvos1oi7ht532f0",
-  "containerimage.config.digest": "sha256:87476afd8ce76cd8a991cc76b52782afcd0647f7a6e08367226f8040410bfe0e",
+  "buildx.build.ref": "my-builder/my-builder0/60sspo11nq5x768rdgol81uws",
+  "containerimage.config.digest": "sha256:2958f771751724c5dc29960b0f504cc8cb8839f1a2a573746f1b3974e82bc610",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:5c04c6bf1e9674be0fc44bb834eb58435ae8ff0f9d65e6679c003120a9cea89b",
+    "digest": "sha256:3d977820c715123561d474424ea2ca230d3371183c1e7fb58971f5a71925279f",
     "size": 1890,
     "platform": {
       "architecture": "amd64",
       "os": "linux"
     }
   },
-  "containerimage.digest": "sha256:5c04c6bf1e9674be0fc44bb834eb58435ae8ff0f9d65e6679c003120a9cea89b",
+  "containerimage.digest": "sha256:3d977820c715123561d474424ea2ca230d3371183c1e7fb58971f5a71925279f",
   "image.name": "ghcr.io/astrasky-net/kubeapps-apis:v1.0.0"
 }

@@ -43,4 +43,4 @@ COPY --from=builder /source/dist/images/grace_stop_ovn_controller /usr/share/ovn
 COPY --from=setcap /kube-ovn /kube-ovn
 RUN /kube-ovn/iptables-wrapper-installer.sh --no-sanity-check
 
-WORKDIR /kube-ovn    
+WORKDIR /kube-ovn
