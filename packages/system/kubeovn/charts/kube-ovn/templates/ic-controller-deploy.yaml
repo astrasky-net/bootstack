@@ -41,28 +41,6 @@ spec:
       priorityClassName: system-cluster-critical
       serviceAccountName: ovn
       hostNetwork: true
-      initContainers:
-        - name: hostpath-init
-          image: {{ include "kubeovn.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - sh
-            - -c
-            - "chown -R nobody: /var/run/ovn /var/log/ovn /var/log/kube-ovn"
-          securityContext:
-            allowPrivilegeEscalation: true
-            capabilities:
-              drop:
-                - ALL
-            privileged: true
-            runAsUser: 0
-          volumeMounts:
-            - mountPath: /var/run/ovn
-              name: host-run-ovn
-            - mountPath: /var/log/ovn
-              name: host-log-ovn
-            - name: kube-ovn-log
-              mountPath: /var/log/kube-ovn
       containers:
         - name: ovn-ic-controller
           image: {{ include "kubeovn.image" . }}
@@ -70,16 +48,12 @@ spec:
           command: ["/kube-ovn/start-ic-controller.sh"]
           args:
           - --log_file=/var/log/kube-ovn/kube-ovn-ic-controller.log
-          - --log_file_max_size=200
+          - --log_file_max_size=0
           - --logtostderr=false
           - --alsologtostderr=true
           securityContext:
-            runAsUser: 65534
-            privileged: false
             capabilities:
-              add:
-                - NET_BIND_SERVICE
-                - SYS_NICE
+              add: ["SYS_NICE"]
           env:
             - name: ENABLE_SSL
               value: "{{ .Values.networking.ENABLE_SSL }}"
@@ -99,6 +73,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/ovn
               name: host-run-ovn
+            - mountPath: /etc/ovn
+              name: host-config-ovn
             - mountPath: /var/log/ovn
               name: host-log-ovn
             - mountPath: /etc/localtime
@@ -114,6 +90,9 @@ spec:
         - name: host-run-ovn
           hostPath:
             path: /run/ovn
+        - name: host-config-ovn
+          hostPath:
+            path: /etc/origin/ovn
         - name: host-log-ovn
           hostPath:
             path: /var/log/ovn

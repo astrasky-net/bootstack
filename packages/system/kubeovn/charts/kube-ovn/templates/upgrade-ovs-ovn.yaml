@@ -1,4 +1,4 @@
-{{- if include "kubeovn.ovn.versionCompatibility" . -}}
+{{- if eq (include "kubeovn.ovs-ovn.updateStrategy" .) "OnDelete" }}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -24,12 +24,6 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded
   name: system:ovs-ovn-upgrade
 rules:
-  - apiGroups:
-      - apps
-    resources:
-      - daemonsets
-    verbs:
-      - list
   - apiGroups:
       - apps
     resources:
@@ -147,8 +141,6 @@ spec:
               value: "{{ .Values.networking.ENABLE_SSL }}"
             - name: OVN_DB_IPS
               value: "{{ .Values.MASTER_NODES | default (include "kubeovn.nodeIPs" .) }}"
-            - name: OVN_VERSION_COMPATIBILITY
-              value: '{{ include "kubeovn.ovn.versionCompatibility" . }}'
           command:
             - bash
             - -eo
@@ -168,4 +160,4 @@ spec:
           secret:
             optional: true
             secretName: kube-ovn-tls
-{{- end -}}
+{{ end }}
