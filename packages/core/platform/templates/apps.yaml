@@ -19,6 +19,7 @@ metadata:
     namespace.bootstack.app/etcd: tenant-root
     namespace.bootstack.app/monitoring: tenant-root
     namespace.bootstack.app/ingress: tenant-root
+    namespace.bootstack.app/seaweedfs: tenant-root
     namespace.bootstack.app/host: "{{ $host }}"
   name: tenant-root
 ---

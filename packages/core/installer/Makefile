@@ -30,7 +30,9 @@ image-bootstack:
 		--metadata-file images/bootstack.json \
 		--push=$(PUSH) \
 		--load=$(LOAD)
-	echo "$(REGISTRY)/bootstack:$(call settag,$(TAG))" > images/bootstack.tag
+	IMAGE="$(REGISTRY)/bootstack:$(call settag,$(TAG))@$$(yq e '."containerimage.digest"' images/bootstack.json -o json -r)" \
+		yq -i '.bootstack.image = strenv(IMAGE)' values.yaml
+	rm -f images/bootstack.json
 
 image-talos:
 	test -f ../../../_out/assets/installer-amd64.tar || make talos-installer
@@ -50,7 +52,7 @@ image-matchbox:
 		--metadata-file images/matchbox.json \
 		--push=$(PUSH) \
 		--load=$(LOAD)
-	echo "$(REGISTRY)/matchbox:$(call settag,$(TALOS_VERSION))" > images/matchbox.tag
+	rm -f images/matchbox.json
 
 assets: talos-iso talos-nocloud
 

@@ -1,0 +1,2 @@
+bootstack:
+  image: ghcr.io/asrasky-net/bootstack/bootstack:v0.12.0

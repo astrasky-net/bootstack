@@ -49,7 +49,7 @@ spec:
       serviceAccountName: bootstack
       containers:
       - name: bootstack
-        image: "{{ .Files.Get "images/bootstack.tag" | trim }}@{{ index (.Files.Get "images/bootstack.json" | fromJson) "containerimage.digest" }}"
+        image: "{{ .Values.bootstack.image }}"
         env:
         - name: KUBERNETES_SERVICE_HOST
           value: localhost
@@ -68,7 +68,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
       - name: darkhttpd
-        image: "{{ .Files.Get "images/bootstack.tag" | trim }}@{{ index (.Files.Get "images/bootstack.json" | fromJson) "containerimage.digest" }}"
+        image: "{{ .Values.bootstack.image }}"
         command:
         - /usr/bin/darkhttpd
         - /bootstack/assets

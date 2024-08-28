@@ -1,0 +1,2 @@
+e2e:
+  image: ghcr.io/astrasky-net/bootstack/e2e-sandbox:v0.12.0

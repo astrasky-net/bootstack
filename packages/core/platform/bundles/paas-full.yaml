@@ -53,45 +53,26 @@ releases:
   releaseName: external-secrets-operator
   chart: bootstack-external-secrets-operator
   namespace: bootstack-external-secrets-operator
-  dependsOn: [cilium,cert-manager,onepassword-connect]  
+  dependsOn: [cilium,cert-manager,cert-manager-issuers,onepassword-connect]  
 
 - name: onepassword-connect
   releaseName: onepassword-connect
   chart: bootstack-onepassword-connect
   namespace: bootstack-onepassword-connect
-  dependsOn: [cilium,cert-manager]
-  
+  dependsOn: [cilium,kubeovn,cert-manager-issuers]
+
 - name: external-dns
   releaseName: external-dns
   chart: bootstack-external-dns
   namespace: bootstack-external-dns
-  dependsOn: [cilium,cert-manager]  
-
-
-- name: snapshot-controller
-  releaseName: snapshot-controller
-  chart: bootstack-snapshot-controller
-  namespace: bootstack-snapshot-controller
-  dependsOn: [cilium,kubeovn,cert-manager-issuers]  
-
-- name: minio-operator
-  releaseName: minio-operator
-  chart: bootstack-minio-operator
-  namespace: bootstack-minio-operator
   dependsOn: [cilium,kubeovn,cert-manager-issuers]
-
-- name: velero
-  releaseName: velero
-  chart: bootstack-velero
-  namespace: bootstack-velero
-  dependsOn: [cilium,kubeovn,snapshot-controller]  
 
 - name: argo-cd
   releaseName: argo-cd
   chart: bootstack-argo-cd
   namespace: bootstack-argo-cd
-  dependsOn: [cilium,kubeovn]
-  
+  dependsOn: [cilium,kubeovn,cert-manager-issuers]
+
 - name: victoria-metrics-operator
   releaseName: victoria-metrics-operator
   chart: bootstack-victoria-metrics-operator
@@ -197,6 +178,18 @@ releases:
   namespace: bootstack-linstor
   privileged: true
   dependsOn: [piraeus-operator,cilium,kubeovn,cert-manager]
+
+- name: snapshot-controller
+  releaseName: snapshot-controller
+  chart: bootstack-snapshot-controller
+  namespace: bootstack-snapshot-controller
+  dependsOn: [cilium,kubeovn,cert-manager-issuers]  
+
+- name: objectstorage-controller
+  releaseName: objectstorage-controller
+  chart: bootstack-objectstorage-controller
+  namespace: bootstack-objectstorage-controller
+  dependsOn: [cilium,kubeovn]
 
 - name: telepresence
   releaseName: traffic-manager
