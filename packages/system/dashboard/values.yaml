@@ -31,13 +31,13 @@ kubeapps:
         width: 100%;
       }
     image:
-      registry: ghcr.io/astrasky-net/bootstack
+      registry: ghcr.io/astrasky-net
       repository: dashboard
-      tag: v0.12.0
-      digest: sha256:4818712e9fc9c57cc321512760c3226af564a04e69d4b3ec9229ab91fd39abeb
+      tag: v1.0.0
+      digest: sha256:224fd8da550a4fcdbe8b25c5c2ae25b4875a502597e58a6925566f3a4b5a41c0
   kubeappsapis:
     image:
-      registry: ghcr.io/astrasky-net/bootstack
+      registry: ghcr.io/astrasky-net
       repository: kubeapps-apis
-      tag: v0.12.0
-      digest: "sha256:5eee4c2207f23a6d5317c08bbedfd71b8b22f733b834cd370f1313fb428a22d0"
+      tag: v1.0.0
+      digest: "sha256:23fe38edc548d6a435242b1c000fc68d09f55250ca4314f4531271f2510c8e0e"

@@ -1,1 +1,1 @@
-ghcr.io/astrasky-net/nginx-cache:v0.1.0
+ghcr.io/astrasky-net/nginx-cache:v0.1.0@sha256:3133dc7cc0969361bf0ad332096a6b9306fbc592702b6de8165968e03562332e
