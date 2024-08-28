@@ -1,4 +1,4 @@
-NAME=etcd
+NAME=seaweedfs
 
 include ../../../scripts/package.mk
 

@@ -8,4 +8,8 @@ spec:
   instances: 2
   storage:
     size: 10Gi
+
+  inheritedMetadata:
+    labels:
+      policy.bootstack.app/allow-to-apiserver: "true"
 {{- end }}
