@@ -8,17 +8,16 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ingress-nginx
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    external-dns.alpha.kubernetes.io/target: "{{ $host }}"
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/backend-protocol: "AUTO_HTTP"
+    nginx.ingress.kubernetes.io/backend-protocol: AUTO_HTTP
     nginx.ingress.kubernetes.io/configuration-snippet: |
       if ($scheme = http) {
-        set $proxy_upstream_name "tenant-root-kubernetes-infra-ingress-nginx-80";
+        set $proxy_upstream_name "{{ .Release.Namespace }}-{{ .Release.Name }}-ingress-nginx-80";
         set $proxy_host $proxy_upstream_name;
-        set $service_port 80;
       }
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    external-dns.alpha.kubernetes.io/target: "{{ $host }}"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: "{{ $ingress }}"
   rules:

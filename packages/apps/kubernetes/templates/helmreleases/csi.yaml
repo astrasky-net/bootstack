@@ -3,24 +3,24 @@ kind: HelmRelease
 metadata:
   name: {{ .Release.Name }}-csi
   labels:
-    cozystack.io/repository: system
-    coztstack.io/target-cluster-name: {{ .Release.Name }}
+    bootstack.app/repository: system
+    bootstack.app/target-cluster-name: {{ .Release.Name }}
 spec:
   interval: 5m
   releaseName: csi
   chart:
     spec:
-      chart: cozy-kubevirt-csi-node
+      chart: bootstack-kubevirt-csi-node
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
-        name: cozystack-system
-        namespace: cozy-system
+        name: bootstack-system
+        namespace: bootstack-system
   kubeConfig:
     secretRef:
       name: {{ .Release.Name }}-kubeconfig
-  targetNamespace: cozy-csi
-  storageNamespace: cozy-csi
+  targetNamespace: bootstack-csi
+  storageNamespace: bootstack-csi
   install:
     createNamespace: true
     remediation:
@@ -28,6 +28,10 @@ spec:
   upgrade:
     remediation:
       retries: -1
+  {{- with .Values.stroageClass }}
+  values:
+    storageClass: "{{ . }}"
+  {{- end }}
   dependsOn:
   {{- if lookup "helm.toolkit.fluxcd.io/v2" "HelmRelease" .Release.Namespace .Release.Name }}
   - name: {{ .Release.Name }}

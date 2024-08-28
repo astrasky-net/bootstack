@@ -1,6 +1,7 @@
 UBUNTU_CONTAINER_DISK_TAG = v1.30.1
 
 include ../../../scripts/common-envs.mk
+include ../../../scripts/package.mk
 
 generate:
 	readme-generator -v values.yaml -s values.schema.json -r README.md
@@ -17,4 +18,6 @@ image-ubuntu-container-disk:
 		--metadata-file images/ubuntu-container-disk.json \
 		--push=$(PUSH) \
 		--load=$(LOAD)
-	echo "$(REGISTRY)/ubuntu-container-disk:$(call settag,$(UBUNTU_CONTAINER_DISK_TAG))" > images/ubuntu-container-disk.tag
+	echo "$(REGISTRY)/ubuntu-container-disk:$(call settag,$(UBUNTU_CONTAINER_DISK_TAG))@$$(yq e '."containerimage.digest"' images/ubuntu-container-disk.json -o json -r)" \
+		> images/ubuntu-container-disk.tag
+	rm -f images/ubuntu-container-disk.json

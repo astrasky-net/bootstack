@@ -15,6 +15,13 @@ spec:
 
   storage:
     size: {{ required ".Values.size is required" .Values.size }}
+    {{- with .Values.stroageClass }}
+    storageClass: {{ . }}
+    {{- end }}
+
+  inheritedMetadata:
+    labels:
+      policy.bootstack.app/allow-to-apiserver: "true"
 
   {{- if .Values.users }}
   managed:

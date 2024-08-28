@@ -1,3 +1,20 @@
+{{- define "bootstack.namespace-anotations" }}
+{{- $context := index . 0 }}
+{{- $existingNS := index . 1 }}
+{{- range $x := list "etcd" "monitoring" "ingress" "seaweedfs" }}
+{{- if (index $context.Values $x) }}
+namespace.bootstack.app/{{ $x }}: "{{ include "tenant.name" $context }}"
+{{- else }}
+namespace.bootstack.app/{{ $x }}: "{{ index $existingNS.metadata.annotations (printf "namespace.bootstack.app/%s" $x) | required (printf "namespace %s has no namespace.bootstack.app/%s annotation" $context.Release.Namespace $x) }}"
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- $existingNS := lookup "v1" "Namespace" "" .Release.Namespace }}
+{{- if not $existingNS }}
+{{- fail (printf "error lookup existing namespace: %s" .Release.Namespace) }}
+{{- end }}
+
 {{- if ne (include "tenant.name" .) "tenant-root" }}
 ---
 apiVersion: v1
@@ -5,22 +22,25 @@ kind: Namespace
 metadata:
   name: {{ include "tenant.name" . }}
   {{- if hasPrefix "tenant-" .Release.Namespace }}
-  {{- $existingNS := lookup "v1" "Namespace" "" .Release.Namespace }}
-  {{- if $existingNS }}
   annotations:
     {{- if .Values.host }}
     namespace.bootstack.app/host: "{{ .Values.host }}"
     {{- else }}
-    {{ $parentHost := index $existingNS.metadata.annotations "namespace.bootstack.app/host" | required (printf "namespace %s has no namespace.bootstack.app/host annotation" $.Release.Namespace) }}
+    {{ $parentHost := index $existingNS.metadata.annotations "namespace.bootstack.app/host" | required (printf "namespace %s has no namespace.bootstack.app/host annotation" .Release.Namespace) }}
     namespace.bootstack.app/host: "{{ splitList "-" (include "tenant.name" .) | last }}.{{ $parentHost }}"
     {{- end }}
-    {{- range $x := list "etcd" "monitoring" "ingress" }}
-    {{- if (index $.Values $x) }}
-    namespace.bootstack.app/{{ $x }}: "{{ include "tenant.name" $ }}"
-    {{- else }}
-    namespace.bootstack.app/{{ $x }}: "{{ index $existingNS.metadata.annotations (printf "namespace.bootstack.app/%s" $x) | required (printf "namespace %s has no namespace.bootstack.app/%s annotation" $.Release.Namespace $x) }}"
+    {{- include "bootstack.namespace-anotations" (list . $existingNS) | nindent 4 }}
+  labels:
+    tenant.bootstack.app/{{ include "tenant.name" $ }}: ""
+    {{- if hasPrefix "tenant-" .Release.Namespace }}
+    {{- $parts := splitList "-" .Release.Namespace }}
+    {{- range $i, $v := $parts }}
+    {{- if ne $i 0 }}
+    tenant.bootstack.app/{{ join "-" (slice $parts 0 (add $i 1)) }}: ""
     {{- end }}
     {{- end }}
+    {{- end }}
+    {{- include "bootstack.namespace-anotations" (list $ $existingNS) | nindent 4 }}
   ownerReferences:
   - apiVersion: v1
     blockOwnerDeletion: true
@@ -28,8 +48,5 @@ metadata:
     kind: Namespace
     name: {{ .Release.Namespace }}
     uid: {{ $existingNS.metadata.uid }}
-  {{- else }}
-  {{- fail (printf "error lookup exiting namespace: %s" .Release.Namespace) }}
-  {{- end }}
   {{- end }}
 {{- end }}

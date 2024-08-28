@@ -1,7 +1,7 @@
 {{- $myNS := lookup "v1" "Namespace" "" .Release.Namespace }}
-{{- $etcd := index $myNS.metadata.annotations "namespace.cozystack.io/etcd" }}
-{{- $ingress := index $myNS.metadata.annotations "namespace.cozystack.io/ingress" }}
-{{- $host := index $myNS.metadata.annotations "namespace.cozystack.io/host" }}
+{{- $etcd := index $myNS.metadata.annotations "namespace.bootstack.app/etcd" }}
+{{- $ingress := index $myNS.metadata.annotations "namespace.bootstack.app/ingress" }}
+{{- $host := index $myNS.metadata.annotations "namespace.bootstack.app/host" }}
 {{- $kubevirtmachinetemplateNames := list }}
 {{- define "kubevirtmachinetemplate" -}}
 spec:
@@ -45,7 +45,7 @@ spec:
           volumes:
           - name: system
             containerDisk:
-              image: "{{ $.Files.Get "images/ubuntu-container-disk.tag" | trim }}@{{ index ($.Files.Get "images/ubuntu-container-disk.json" | fromJson) "containerimage.digest" }}"
+              image: "{{ $.Files.Get "images/ubuntu-container-disk.tag" | trim }}"
           - name: ephemeral
             emptyDisk:
               capacity: {{ .group.ephemeralStorage | default "20Gi" }}
@@ -106,7 +106,7 @@ spec:
   deployment:
     podAdditionalMetadata:
       labels:
-        policy.cozystack.io/allow-to-etcd: "true"
+        policy.bootstack.app/allow-to-etcd: "true"
   replicas: 2
   version: 1.30.1
 ---
