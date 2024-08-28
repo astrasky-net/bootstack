@@ -1,4 +1,4 @@
-REGISTRY := ghcr.io/astrasky-net
+REGISTRY := ghcr.io/astrasky-net/bootstack
 PUSH := 1
 LOAD := 0
 VERSION = $(patsubst v%,%,$(shell git describe --tags --abbrev=0))
