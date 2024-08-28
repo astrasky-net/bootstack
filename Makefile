@@ -6,8 +6,11 @@ build:
 	make -C packages/system/cilium image
 	make -C packages/system/kubeovn image
 	make -C packages/system/dashboard image
+	make -C packages/system/kamaji image
+	make -C packages/core/testing image
 	make -C packages/core/installer image
 	make manifests
+
 
 manifests:
 	(cd packages/core/installer/; helm template -n bootstack-installer installer .) > manifests/bootstack-installer.yaml
@@ -25,3 +28,8 @@ repos:
 
 assets:
 	make -C packages/core/installer/ assets
+
+test:
+	make -C packages/core/testing apply
+	make -C packages/core/testing test
+	make -C packages/core/testing delete
