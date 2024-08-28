@@ -3,7 +3,7 @@ etcdOperator:
   image:
 
     # -- Image repository
-    repository: ghcr.io/aenix-io/etcd-operator
+    repository: ghcr.io/astrasky-net/etcd-operator
 
     # -- Image pull policy
     pullPolicy: IfNotPresent

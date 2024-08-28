@@ -13,7 +13,7 @@ webhooks:
       service:
         name: {{ include "etcd-operator.fullname" . }}-webhook-service
         namespace: {{ .Release.Namespace }}
-        path: /validate-etcd-aenix-io-v1alpha1-etcdcluster
+        path: /validate-etcd-astrasky-net-v1alpha1-etcdcluster
     failurePolicy: Fail
     name: vetcdcluster.kb.io
     rules:

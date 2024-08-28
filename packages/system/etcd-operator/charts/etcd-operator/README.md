@@ -12,7 +12,7 @@
 | etcdOperator.args[2] | string | `"--leader-elect"` |  |
 | etcdOperator.envVars | object | `{}` | Empty environment variables section |
 | etcdOperator.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
-| etcdOperator.image.repository | string | `"ghcr.io/aenix-io/etcd-operator"` | Image repository |
+| etcdOperator.image.repository | string | `"ghcr.io/astrasky-net/etcd-operator"` | Image repository |
 | etcdOperator.image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
 | etcdOperator.livenessProbe.httpGet.path | string | `"/healthz"` | Healthcheck liveness probe path |
 | etcdOperator.livenessProbe.httpGet.port | int | `8081` | Healthcheck port |

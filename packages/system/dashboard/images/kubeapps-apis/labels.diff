@@ -19,7 +19,7 @@ index c489cb6ca..8884a6484 100644
  	var relList helmv2.HelmReleaseList
 -	if err = client.List(ctx, &relList); err != nil {
 +	listOptions := ctrlclient.ListOptions{
-+		LabelSelector: labels.SelectorFromSet(labels.Set{"bootstack.app/ui": "true"}),
++		LabelSelector: labels.SelectorFromSet(labels.Set{"bootstack.io/ui": "true"}),
 +	}
 +	if err = client.List(ctx, &relList, &listOptions); err != nil {
  		return nil, connecterror.FromK8sError("list", "HelmRelease", namespace+"/*", err)
@@ -30,7 +30,7 @@ index c489cb6ca..8884a6484 100644
  			Name:      targetName.Name,
  			Namespace: targetName.Namespace,
 +			Labels: map[string]string{
-+				"bootstack.app/ui": "true",
++				"bootstack.io/ui": "true",
 +			},
  		},
  		Spec: helmv2.HelmReleaseSpec{
@@ -53,7 +53,7 @@ index 790b21514..539276a17 100644
  	listOptions := ctrlclient.ListOptions{
 -		Namespace: ns,
 +		Namespace:     ns,
-+		LabelSelector: labels.SelectorFromSet(labels.Set{"bootstack.app/ui": "true"}),
++		LabelSelector: labels.SelectorFromSet(labels.Set{"bootstack.io/ui": "true"}),
  	}
  	if err := client.List(backgroundCtx, &repoList, &listOptions); err != nil {
  		return nil, connecterror.FromK8sError("list", "HelmRepository", "", err)
@@ -62,7 +62,7 @@ index 790b21514..539276a17 100644
  			Name:      targetName.Name,
  			Namespace: targetName.Namespace,
 +			Labels: map[string]string{
-+				"bootstack.app/ui": "true",
++				"bootstack.io/ui": "true",
 +			},
  		},
  		Spec: sourcev1.HelmRepositorySpec{

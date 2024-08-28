@@ -1,7 +1,7 @@
 export NAME=grafana-operator
 export NAMESPACE=bootstack-grafana-operator
 
-include ../../../scripts/package-system.mk
+include ../../../scripts/package.mk
 
 update:
 	rm -rf charts

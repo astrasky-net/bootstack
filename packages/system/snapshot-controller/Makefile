@@ -1,7 +1,7 @@
 export NAME=snapshot-controller
 export NAMESPACE=bootstack-$(NAME)
 
-include ../../../scripts/package-system.mk
+include ../../../scripts/package.mk
 
 update:
 	rm -rf charts

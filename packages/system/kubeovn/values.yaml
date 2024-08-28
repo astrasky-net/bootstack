@@ -1,23 +1,25 @@
 kube-ovn:
   namespace: bootstack-kubeovn
-
   func:
     ENABLE_NP: false
-
   ipv4:
     POD_CIDR: "10.244.0.0/16"
     POD_GATEWAY: "10.244.0.1"
     SVC_CIDR: "10.96.0.0/16"
     JOIN_CIDR: "100.64.0.0/16"
-
   MASTER_NODES_LABEL: "node-role.kubernetes.io/control-plane"
   networking:
     ENABLE_SSL: true
-
   cni_conf:
     CNI_CONFIG_PRIORITY: "10"
     MOUNT_LOCAL_BIN_DIR: false
-
   OPENVSWITCH_DIR: "/var/lib/openvswitch"
   OVN_DIR: "/var/lib/ovn"
   DISABLE_MODULES_MANAGEMENT: true
+global:
+  registry:
+    address: ghcr.io/astrasky-net/bootstack
+  images:
+    kubeovn:
+      repository: kubeovn
+      tag: v1.13.0@sha256:55b3ed5d4b628216378040e445aadc3d1cd817ff4d17eb081d884c6e00fb51e2

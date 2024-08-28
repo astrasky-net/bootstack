@@ -1,8 +1,8 @@
 export NAME=etcd-operator
 export NAMESPACE=bootstack-${NAME}
 
-include ../../../scripts/package-system.mk
+include ../../../scripts/package.mk
 
 update:
 	rm -rf charts
-	helm pull oci://ghcr.io/aenix-io/charts/etcd-operator --untar --untardir charts
+	helm pull oci://ghcr.io/astrasky-net/charts/etcd-operator --untar --untardir charts
