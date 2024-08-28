@@ -27,9 +27,9 @@ ip link add bootstack-br0 type bridge
 ip link set bootstack-br0 up
 ip addr add 192.168.123.1/24 dev bootstack-br0
 
-# Enable forward & masquerading
-echo 1 > /proc/sys/net/ipv4/ip_forward
-iptables -t nat -A POSTROUTING -s 192.168.123.0/24 -j MASQUERADE
+# Enable masquerading
+iptables -t nat -D POSTROUTING -s 192.168.123.0/24 ! -d 192.168.123.0/24 -j MASQUERADE 2>/dev/null || true
+iptables -t nat -A POSTROUTING -s 192.168.123.0/24 ! -d 192.168.123.0/24 -j MASQUERADE
 
 rm -rf srv1 srv2 srv3
 mkdir -p srv1 srv2 srv3
@@ -114,7 +114,7 @@ machine:
     - name: zfs
     - name: spl
   install:
-    image: ghcr.io/astrasky-net/bootstack/talos:v1.7.5
+    image: ghcr.io/astrasky-net/bootstack/talos:v1.7.6
   files:
   - content: |
       [plugins]
@@ -288,7 +288,7 @@ kubectl patch -n tenant-root hr/tenant-root --type=merge -p '{"spec":{ "values":
   "ingress": true,
   "monitoring": true,
   "etcd": true,
-  "isolation": true
+  "isolated": true
 }}}'
 
 # Wait for HelmRelease be created
@@ -296,6 +296,10 @@ timeout 60 sh -c 'until kubectl get hr -n tenant-root etcd ingress monitoring te
 
 # Wait for HelmReleases be installed
 kubectl wait --timeout=2m --for=condition=ready -n tenant-root hr etcd ingress monitoring tenant-root
+
+kubectl patch -n tenant-root hr/ingress --type=merge -p '{"spec":{ "values":{
+  "dashboard": true
+}}}'
 
 # Wait for nginx-ingress-controller
 timeout 60 sh -c 'until kubectl get deploy -n tenant-root root-ingress-controller; do sleep 1; done'
@@ -305,7 +309,7 @@ kubectl wait --timeout=5m --for=condition=available -n tenant-root deploy root-i
 kubectl wait --timeout=5m --for=jsonpath=.status.readyReplicas=3 -n tenant-root sts etcd
 
 # Wait for Victoria metrics
-kubectl wait --timeout=5m --for=condition=available deploy -n tenant-root vmalert-vmalert vminsert-longterm vminsert-shortterm
+kubectl wait --timeout=5m --for=condition=available deploy -n tenant-root vmalert-vmalert-longterm vmalert-vmalert-shortterm vminsert-longterm vminsert-shortterm
 kubectl wait --timeout=5m --for=jsonpath=.status.readyReplicas=2 -n tenant-root sts vmalertmanager-alertmanager vmselect-longterm vmselect-shortterm vmstorage-longterm vmstorage-shortterm
 
 # Wait for grafana
