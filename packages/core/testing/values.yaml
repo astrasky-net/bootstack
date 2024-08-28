@@ -1,2 +1,2 @@
 e2e:
-  image: ghcr.io/astrasky-net/e2e-sandbox:v1.0.0@sha256:945530ae649b495f9321678f0be8b8313031942a7bab10e492f13c20d993b632
+  image: ghcr.io/astrasky-net/e2e-sandbox:v1.0.0@sha256:719dd320ecf310cb1012480c6ecc169009e51576eef14b933542875f5c0e05e7

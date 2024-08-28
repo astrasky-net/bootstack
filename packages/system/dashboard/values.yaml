@@ -34,10 +34,10 @@ kubeapps:
       registry: ghcr.io/astrasky-net
       repository: dashboard
       tag: v1.0.0
-      digest: sha256:224fd8da550a4fcdbe8b25c5c2ae25b4875a502597e58a6925566f3a4b5a41c0
+      digest: sha256:74e4782277f476a063b6df05678391506c8e59913bd56addb82b726a39982e49
   kubeappsapis:
     image:
       registry: ghcr.io/astrasky-net
       repository: kubeapps-apis
       tag: v1.0.0
-      digest: "sha256:23fe38edc548d6a435242b1c000fc68d09f55250ca4314f4531271f2510c8e0e"
+      digest: "sha256:7ab342db779bdaa46ea15a3dd5591fbc681c575c1af4b6c18611b70b8914ee81"

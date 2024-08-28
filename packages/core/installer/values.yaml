@@ -1,2 +1,2 @@
 bootstack:
-  image: ghcr.io/asrasky-net/bootstack/bootstack:v0.12.0
+  image: ghcr.io/astrasky-net/bootstack:v1.0.0@sha256:394dda7b1f86e1f81a1ac4805e7164bf705d6d18f7075dc6a857831ad781cb93

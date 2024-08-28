@@ -1,1 +1,1 @@
-ghcr.io/astrasky-net/ubuntu-container-disk:v1.30.1@sha256:4dc15664f4861d0407dfe69ab4d986361b08d61c13b2522c745c32fd1d1bd1f3
+ghcr.io/astrasky-net/ubuntu-container-disk:v1.30.1@sha256:a93bdfba58ccb1b61c259882d34180c85fe8c40be9307009ff8c355cccdff2bc
