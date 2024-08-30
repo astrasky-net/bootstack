@@ -97,7 +97,7 @@ seaweedfs:
     ingress:
       enabled: true
       className: "tenant-root"
-      host: "seaweedfs2.demo.bootstack.io"
+      host: "seaweedfs2.demo.bootstack.app"
       annotations:
         nginx.ingress.kubernetes.io/proxy-body-size: "0"
         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
@@ -105,13 +105,13 @@ seaweedfs:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       tls:
         - hosts:
-          - seaweedfs.demo.bootstack.io
+          - seaweedfs.demo.bootstack.app
           secretName: seaweedfs-s3-ingress-tls
 
   cosi:
     enabled: true
     podLabels:
-      policy.bootstack.io/allow-to-apiserver: "true"
+      policy.bootstack.app/allow-to-apiserver: "true"
     driverName: "seaweedfs.objectstorage.k8s.io"
     bucketClassName: "seaweedfs"
     image: "ghcr.io/seaweedfs/seaweedfs-cosi-driver:v0.1.1"

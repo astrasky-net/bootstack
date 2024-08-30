@@ -8,7 +8,7 @@ index 436a785..9f186ea 100644
    template:
 +    metadata:
 +      labels:
-+        policy.bootstack.io/allow-to-apiserver: "true"
++        policy.bootstack.app/allow-to-apiserver: "true"
      spec:
        serviceAccountName: {{ $seaweedfsName }}-volume-resize-hook
        restartPolicy: Never

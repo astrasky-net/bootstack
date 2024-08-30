@@ -15,9 +15,9 @@ spec:
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
-        name: bootstack-extra
-        namespace: bootstack-public
-      version: 0.1.0
+        name: bootstack-system
+        namespace: bootstack-system
+      version: '*'
   interval: 1m0s
   timeout: 5m0s
   values:

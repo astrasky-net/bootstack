@@ -10,4 +10,4 @@ spec:
 
   inheritedMetadata:
     labels:
-      policy.bootstack.io/allow-to-apiserver: "true"
+      policy.bootstack.app/allow-to-apiserver: "true"
