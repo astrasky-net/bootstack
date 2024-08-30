@@ -29,3 +29,7 @@ repos:
 assets:
 	make -C packages/core/installer/ assets
 
+test:
+	make -C packages/core/testing apply
+	make -C packages/core/testing test
+	make -C packages/core/testing delete
